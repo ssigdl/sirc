@@ -25,14 +25,14 @@ $(function() {
 	});
 	
 	$('#btnSendChecksForm').click(function(event) {
-	       
 	    
+		var formData = JSON.stringify($("#formSearchCheques :input").serialize()).replace(/"/g, "");
+		
+	    console.log(formData);
 		$.ajax({
             type: "POST",
             url: "searchChecks",
-            data: '{\"cheNumero\":\"12\"}',
-            dataType : "json",
-            contentType : "application/json",
+            data: formData,
             beforeSend: function ( xhr ) {
 	        	console.log("before Send");
             },
