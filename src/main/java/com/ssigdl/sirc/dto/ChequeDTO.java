@@ -2,7 +2,7 @@ package com.ssigdl.sirc.dto;
 
 import java.io.Serializable;
 
-public class ChequeVO implements Serializable{
+public class ChequeDTO implements Serializable{
 
     /**
      * 
