@@ -1,0 +1,44 @@
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-01 09:45:49
+project --topLevelPackage com.ssigdl.sirc --projectName sirc --java 7 --packaging WAR
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-01 09:46:04
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-02 16:56:40
+persistence setup --provider ECLIPSELINK --database MYSQL --userName root --password proyecto1 --databaseName ssigdl
+osgi start --url file:///C:/lib/mysql-connector-java-5.1.29-bin.jar
+database reverse engineer --schema ssigdl --package ~.domain --activeRecord --testAutomatically
+web mvc setup
+controller class --class ~.web.CustomPageController --preferredMapping /custompage
+controller class --class ~.web.CustomPageController --preferredMapping /custompage
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-02 17:35:16
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-29 15:40:05
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-29 15:44:58
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-29 15:45:18
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-29 15:45:53
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-29 15:58:27
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-29 16:02:21
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-09-29 16:08:46
+hint
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-09-29 16:10:44
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-10-30 14:37:51
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-10-30 14:41:16
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-10-30 14:41:39
+hint
+controller class --class ~.web.ChequeController --preferredMapping /cheque
+controller class --class ~.web.ChequeController --preferredMapping /cheque
+controller class --class ~.web.FacturaController --preferredMapping /factura
+controller class --class ~.web.EmpresaController --preferredMapping /empresa
+controller class --class ~.web.ArticuloController --preferredMapping /articulo
+controller class --class ~.web.ServicioController --preferredMapping /servicio
+controller class --class ~.web.CategoriaController --preferredMapping /categoria
+controller class --class ~.web.TelefonoAreaController --preferredMapping /telefonoArea
+controller class --class ~.web.EmpresaTipoController --preferredMapping /empresaTipo
+controller class --class ~.web.EmpresaDetalleController --preferredMapping /empresaDetalle
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-10-30 17:36:07
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-25 15:55:36
+help
+// [failed] database reverse engineer --schema ssigdl --package ~.domain --testAutomatically --activeRecord
+osgi start --url file:///C:/lib/mysql-connector-java-5.1.29-bin.jar
+database reverse engineer --schema ssigdl --package ~.domain --testAutomatically --activeRecord
+controller class --class ~.web.UsuarioController --preferredMapping /usuario
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-25 16:37:56
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-28 11:31:31
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-28 17:12:05

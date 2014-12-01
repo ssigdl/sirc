@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aside class="right-side" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message code="label_articulo_index" htmlEscape="false" var="title" />
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>${title}</h1>
+		<br/>
+		<h1>
+    	   Blank page
+			<small>it all starts here</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li>
+				<i class="fa fa-dashboard">
+					<a href="#"> Home</a>
+				</i>
+			</li>
+			<li>
+				<a href="#">Examples</a>
+			</li>
+			<li class="active">Blank page</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content"></section>
+	<!-- /.content -->
+</aside>
+<!-- /.right-side -->

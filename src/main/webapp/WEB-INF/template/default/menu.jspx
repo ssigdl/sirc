@@ -1,0 +1,259 @@
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0"
+	xmlns:spring="http://www.springframework.org/tags">
+
+	<spring:url value="/resources/img" var="img_url" />
+
+	<jsp:directive.page autoFlush="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="false" />
+	<jsp:output omit-xml-declaration="true" />
+	<aside class="left-side sidebar-offcanvas">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="${img_url}/avatar3.png" class="img-circle" alt="User Image" />
+				</div>
+				<div class="pull-left info">
+					<p>Hello, Jane</p>
+
+					<a href="#">
+						<i class="fa fa-circle text-success">&#160;</i>
+						Online
+					</a>
+				</div>
+			</div>
+			<!-- search form -->
+			<form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search..." />
+					<span class="input-group-btn">
+						<button type='submit' name='seach' id='search-btn' class="btn btn-flat">
+							<i class="fa fa-search">&#160;</i>
+						</button>
+					</span>
+				</div>
+			</form>
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li>
+					<a href="${pageContext.request.contextPath}">
+						<i class="fa fa-home">&#160;</i>
+						<span>
+							<spring:message code="button_home" />
+						</span>
+					</a>
+				</li>
+<!-- 				<menu:item id="i_controller__chequeindex_id" messageCode="global_generic" url="" z="IcHZsiC7G/yOtjVjnmv7C8ZCcQU=" /> -->
+<!-- 				<menu:item id="i_controller__facturaindex_id" messageCode="global_generic" url="/factura/index" z="LBj11zvMNqjFyDS4oWQ9pfdotUQ=" /> -->
+<!-- 				<menu:item id="i_controller__empresaindex_id" messageCode="global_generic" url="/empresa/index" z="IRYW/QJsKXqMmbyYKMwgllaC2ZM=" /> -->
+<!-- 				<menu:item id="i_controller__articuloindex_id" messageCode="global_generic" url="/articulo/index" z="9a0ziW9GxiX/zyD8Mvh2nPs2nPE=" /> -->
+<!-- 				<menu:item id="i_controller__servicioindex_id" messageCode="global_generic" url="/servicio/index" z="TqneKggmMwZ39b3yC23fiJmm1Wk=" /> -->
+<!-- 				<menu:item id="i_controller__categoriaindex_id" messageCode="global_generic" url="/categoria/index" z="jfmewQO7+tBCApiGSqsw38k2jgw=" /> -->
+<!-- 				<menu:item id="i_controller__telefonoareaindex_id" messageCode="global_generic" url="/telefonoArea/index" z="P+TGdQCsIq4mjpFZ9m1FQdVt8og=" /> -->
+<!-- 				<menu:item id="i_controller__empresatipoindex_id" messageCode="global_generic" url="/empresaTipo/index" z="a1xvncSCWYvtaf03hlZRMuqYkUk=" /> -->
+<!-- 				<menu:item id="i_controller__empresadetalleindex_id" messageCode="global_generic" url="/empresaDetalle/index" z="46EEcYGqG0bVew0rOByoNu6bjn0=" /> -->
+				<li>
+					<a href="${pageContext.request.contextPath}/cheque/index">
+						<i class="fa  fa-envelope-o">&#160;</i>
+						<spring:message code="menu_item_checks" var="menu_item_checks" />
+						<spring:message arguments="${menu_item_checks}" code="menu_management" />
+					</a>
+				</li>
+				<li>
+					<a href="${pageContext.request.contextPath}/pages/ui/icons">
+						<i class="fa fa-dot-circle-o">&#160;</i>
+						<spring:message code="menu_item_icons" />
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-bar-chart-o">&#160;</i>
+						<span>Charts</span>
+						<i class="fa fa-angle-left pull-right">&#160;</i>
+					</a>
+					<ul class="treeview-menu">
+						<li>
+							<a href="../charts/morris.html">
+								<i class="fa fa-angle-double-right">&#160;</i>
+								Morris
+							</a>
+						</li>
+						<li>
+							<a href="../charts/flot.html">
+								<i class="fa fa-angle-double-right">&#160;</i>
+								Flot
+							</a>
+						</li>
+						<li>
+							<a href="../charts/inline.html">
+								<i class="fa fa-angle-double-right">&#160;</i>
+								Inline charts
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- 				<li> -->
+				<!-- 					<a href="../widgets.html"> -->
+				<!-- 						<i class="fa fa-th">&#160;</i> -->
+				<!-- 						<span>Widgets</span> -->
+				<!-- 						<small class="badge pull-right bg-green">new</small> -->
+				<!-- 					</a> -->
+				<!-- 				</li> -->
+				<!-- 				<li class="treeview"> -->
+				<!-- 					<a href="#"> -->
+				<!-- 						<i class="fa fa-laptop">&#160;</i> -->
+				<!-- 						<span>UI Elements</span> -->
+				<!-- 						<i class="fa fa-angle-left pull-right">&#160;</i> -->
+				<!-- 					</a> -->
+				<!-- 					<ul class="treeview-menu"> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../UI/general.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								General -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../UI/icons.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Icons -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../UI/buttons.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Buttons -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../UI/sliders.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Sliders -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../UI/timeline.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Timeline -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 					</ul> -->
+				<!-- 				</li> -->
+				<!-- 				<li class="treeview"> -->
+				<!-- 					<a href="#"> -->
+				<!-- 						<i class="fa fa-edit">&#160;</i> -->
+				<!-- 						<span>Forms</span> -->
+				<!-- 						<i class="fa fa-angle-left pull-right">&#160;</i> -->
+				<!-- 					</a> -->
+				<!-- 					<ul class="treeview-menu"> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../forms/general.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								General Elements -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../forms/advanced.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Advanced Elements -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../forms/editors.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Editors -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 					</ul> -->
+				<!-- 				</li> -->
+				<!-- 				<li class="treeview"> -->
+				<!-- 					<a href="#"> -->
+				<!-- 						<i class="fa fa-table">&#160;</i> -->
+				<!-- 						<span>Tables</span> -->
+				<!-- 						<i class="fa fa-angle-left pull-right">&#160;</i> -->
+				<!-- 					</a> -->
+				<!-- 					<ul class="treeview-menu"> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../tables/simple.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Simple tables -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="../tables/data.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Data tables -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 					</ul> -->
+				<!-- 				</li> -->
+				<!-- 				<li> -->
+				<!-- 					<a href="../calendar.html"> -->
+				<!-- 						<i class="fa fa-calendar">&#160;</i> -->
+				<!-- 						<span>Calendar</span> -->
+				<!-- 						<small class="badge pull-right bg-red">3</small> -->
+				<!-- 					</a> -->
+				<!-- 				</li> -->
+				<!-- 				<li> -->
+				<!-- 					<a href="../mailbox.html"> -->
+				<!-- 						<i class="fa fa-envelope">&#160;</i> -->
+				<!-- 						<span>Mailbox</span> -->
+				<!-- 						<small class="badge pull-right bg-yellow">12</small> -->
+				<!-- 					</a> -->
+				<!-- 				</li> -->
+				<!-- 				<li class="treeview active"> -->
+				<!-- 					<a href="#"> -->
+				<!-- 						<i class="fa fa-folder">&#160;</i> -->
+				<!-- 						<span>Examples</span> -->
+				<!-- 						<i class="fa fa-angle-left pull-right">&#160;</i> -->
+				<!-- 					</a> -->
+				<!-- 					<ul class="treeview-menu"> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="invoice.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Invoice -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="login.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Login -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="register.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Register -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="lockscreen.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Lockscreen -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="404.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								404 Error -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li> -->
+				<!-- 							<a href="500.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								500 Error -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 						<li class="active"> -->
+				<!-- 							<a href="blank.html"> -->
+				<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+				<!-- 								Blank Page -->
+				<!-- 							</a> -->
+				<!-- 						</li> -->
+				<!-- 					</ul> -->
+				<!-- 				</li> -->
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+</div>
