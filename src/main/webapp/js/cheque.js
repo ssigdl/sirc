@@ -26,7 +26,7 @@ $(function() {
 	
 	$('#btnSendChecksForm').click(function(event) {
 	    
-		var formData = JSON.stringify($("#formSearchCheques :input").serialize()).replace(/"/g, "");
+		var formData = $("#formSearchCheques :input").serializeArray();
 		
 	    console.log(formData);
 		$.ajax({
@@ -40,7 +40,7 @@ $(function() {
                 console.log('Error ' + request.responseText + "\n" + status + "\n" + error);
             },
             success: function(JSONrespuesta) {
-        		console.log("arf arf");
+        		console.log(JSONrespuesta);
             }
         });
 //		

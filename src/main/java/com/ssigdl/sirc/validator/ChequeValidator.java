@@ -21,7 +21,8 @@ public class ChequeValidator implements Validator {
     public void validate(Object target, Errors errors) {
         SsiCheque ssiCheque = (SsiCheque) target;
 
-        if(cheFechas.equals("")){
+        
+        if(cheFechas != null && cheFechas.equals("")){
             errors.rejectValue("cheFecha", "empty");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cheNumero", "empty");

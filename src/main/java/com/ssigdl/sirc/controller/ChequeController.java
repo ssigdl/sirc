@@ -1,5 +1,9 @@
 package com.ssigdl.sirc.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssigdl.sirc.entity.SsiCheque;
+import com.ssigdl.sirc.validator.ChequeValidator;
 import com.ssigdl.sirc.vo.ChequeVO;
 
 @RequestMapping("/cheque")
@@ -36,24 +41,33 @@ public class ChequeController {
         // ModelAndView mav = new ModelAndView("cheque/index");
         System.out.println(chequeVO.getCheNumero() + " - " + chequeVO.getCheReceptor() + " - " + chequeVO.getCheFechas());
         SsiCheque ssiCheque = new SsiCheque();
-
+        ssiCheque.setCheReceptor(chequeVO.getCheReceptor());
+        ssiCheque.setCheNumero(chequeVO.getCheNumero());
+        
 //        ChequeValidator chequeValidator = new ChequeValidator();
-//        chequeValidator.setCheFecha(cheFechas);
+//        chequeValidator.setCheFecha(chequeVO.getCheFechas());
 //        chequeValidator.validate(ssiCheque, result);
 
-//        List<SsiCheque> lstCheques = new ArrayList();
-//
-//        HashMap<String, Object> cheParameters = new HashMap();
-//        if (result.hasFieldErrors("cheNumero") == false) {
-//            cheParameters.put("cheNumero", cheNumero);
-//        } else if (result.hasFieldErrors("cheReceptor") == false) {
-//            cheParameters.put("cheReceptor", cheReceptor);
-//        } else if (result.hasFieldErrors("cheFecha") == false) {
-//            cheParameters.put("cheFecha", cheFechas);
+        List<SsiCheque> lstCheques = new ArrayList();
+        HashMap<String, String> cheParameters = new HashMap();
+        
+        if (result.hasFieldErrors("cheNumero") == false) {
+            cheParameters.put("cheNumero", ssiCheque.getCheNumero());
+        } else if (result.hasFieldErrors("cheReceptor") == false) {
+            cheParameters.put("cheReceptor", ssiCheque.getCheReceptor());
+        } 
+//        else if (result.hasFieldErrors("cheFecha") == false) {
+//            cheParameters.put("cheFechas", chequeVO.getCheFechas());
 //        }
 
-//        if (cheParameters.size() > 0) {
-//            lstCheques = ssiCheque.findSsiChequesByParameters(cheParameters);
+        System.out.println(cheParameters);
+        
+//        if (cheParameters.size()  0) {
+            lstCheques = ssiCheque.findSsiChequesByParameters(cheParameters);
+            System.out.println(lstCheques.size());
+            for(SsiCheque c : lstCheques){
+                System.out.println(c.getCheNumero());
+            }
 //        }
 
         // model.addAttribute("numero", ssiCheque.getCheNumero());

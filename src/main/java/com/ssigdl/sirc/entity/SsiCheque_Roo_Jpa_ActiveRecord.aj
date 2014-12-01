@@ -3,36 +3,41 @@
 
 package com.ssigdl.sirc.entity;
 
-import com.ssigdl.sirc.entity.SsiCheque;
-
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
-    
+
     @PersistenceContext
     transient EntityManager SsiCheque.entityManager;
-    
+
     public static final List<String> SsiCheque.fieldNames4OrderClauseFilter = java.util.Arrays.asList("");
-    
+
     public static final EntityManager SsiCheque.entityManager() {
         EntityManager em = new SsiCheque().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        if (em == null)
+            throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-    
+
     public static long SsiCheque.countSsiCheques() {
         return entityManager().createQuery("SELECT COUNT(o) FROM SsiCheque o", Long.class).getSingleResult();
     }
-    
+
     public static List<SsiCheque> SsiCheque.findAllSsiCheques() {
         return entityManager().createQuery("SELECT o FROM SsiCheque o", SsiCheque.class).getResultList();
     }
-    
+
     public static List<SsiCheque> SsiCheque.findAllSsiCheques(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM SsiCheque o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -43,16 +48,17 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         }
         return entityManager().createQuery(jpaQuery, SsiCheque.class).getResultList();
     }
-    
+
     public static SsiCheque SsiCheque.findSsiCheque(Integer cheId) {
-        if (cheId == null) return null;
+        if (cheId == null)
+            return null;
         return entityManager().find(SsiCheque.class, cheId);
     }
-    
+
     public static List<SsiCheque> SsiCheque.findSsiChequeEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM SsiCheque o", SsiCheque.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-    
+
     public static List<SsiCheque> SsiCheque.findSsiChequeEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM SsiCheque o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -63,16 +69,39 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         }
         return entityManager().createQuery(jpaQuery, SsiCheque.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-    
+
+    public static List<SsiCheque> SsiCheque.findSsiChequesByParameters(HashMap<String, String> parameters) {
+        
+        CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
+        
+        CriteriaQuery<SsiCheque> criteriaQueryCheque = criteriaBuilder.createQuery(SsiCheque.class);
+        Root<SsiCheque> cheque = criteriaQueryCheque.from(SsiCheque.class);
+        Predicate predicate = criteriaBuilder.conjunction();
+        
+//        for (Map.Entry<String, String> param: parameters.entrySet())
+        if(parameters.containsKey("cheNumero")){
+            System.out.println("flock");
+            Expression<String> path = cheque.get("cheNumero");
+            Expression<String> parameter = criteriaBuilder.parameter(String.class, parameters.get("cheNumero"));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(path, parameter));
+        }
+        
+        criteriaQueryCheque.where(predicate);
+        
+        return entityManager().createQuery(criteriaQueryCheque.select(cheque)).getResultList();
+    }
+
     @Transactional
     public void SsiCheque.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
-    
+
     @Transactional
     public void SsiCheque.remove() {
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
@@ -80,25 +109,28 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
             this.entityManager.remove(attached);
         }
     }
-    
+
     @Transactional
     public void SsiCheque.flush() {
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.flush();
     }
-    
+
     @Transactional
     public void SsiCheque.clear() {
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.clear();
     }
-    
+
     @Transactional
     public SsiCheque SsiCheque.merge() {
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         SsiCheque merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
-    
+
 }
