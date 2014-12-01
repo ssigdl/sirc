@@ -5,15 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ssigdl.sirc.dto.ChequeVO;
 import com.ssigdl.sirc.entity.SsiCheque;
+import com.ssigdl.sirc.vo.ChequeVO;
 
 @RequestMapping("/cheque")
 @Controller
@@ -29,14 +30,11 @@ public class ChequeController {
         return new ModelAndView("cheque/index", "ssiCheque", new SsiCheque());
     }
 
-    @RequestMapping(value = "/searchChecks", consumes="application/json", produces="application/json", method = RequestMethod.POST, headers = {"Content-type=application/json"})
-    public @ResponseBody SsiCheque searchChecks(@RequestBody ChequeVO chequeVO) {
+    @RequestMapping(value = "/searchChecks", method = RequestMethod.POST)
+    public @ResponseBody SsiCheque searchChecks(@ModelAttribute(value="chequeVO") ChequeVO chequeVO, BindingResult result) {
 
         // ModelAndView mav = new ModelAndView("cheque/index");
-//        for(String key: parameters.keySet()){
-//            System.out.println(parameters.get(key));
-//        }
-        System.out.println(chequeVO.getCheNumero());
+        System.out.println(chequeVO.getCheNumero() + " - " + chequeVO.getCheReceptor() + " - " + chequeVO.getCheFechas());
         SsiCheque ssiCheque = new SsiCheque();
 
 //        ChequeValidator chequeValidator = new ChequeValidator();
