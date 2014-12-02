@@ -88,6 +88,12 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         
         criteriaQueryCheque.where(predicate);
         
+        String jpaQuery = "SELECT o FROM SsiCheque o WHERE 1=1"
+        		+ (parameters.containsKey("cheNumero") ? " AND o.cheNumero = :cheNumero " :"")
+        		+ (parameters.containsKey("cheReceptor") ? " AND o.cheReceptor = :cheReceptor " :"")
+        		+ (parameters.containsKey("cheFechas") ? " AND o.cheFecha BETWEEN :fromDate AND : toDate " :"")
+        		+ "";
+        
         return entityManager().createQuery(criteriaQueryCheque.select(cheque)).getResultList();
     }
 
