@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.Tuple;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +37,7 @@ public class ChequeController {
     }
 
     @RequestMapping(value = "/searchChecks", method = RequestMethod.POST)
-    public @ResponseBody SsiCheque searchChecks(@ModelAttribute(value="chequeVO") ChequeVO chequeVO, BindingResult result) {
+    public @ResponseBody List<SsiCheque> searchChecks(@ModelAttribute(value="chequeVO") ChequeVO chequeVO, BindingResult result) {
 
         // ModelAndView mav = new ModelAndView("cheque/index");
         System.out.println(chequeVO.getCheNumero() + " - " + chequeVO.getCheReceptor() + " - " + chequeVO.getCheFechas());
@@ -44,31 +45,27 @@ public class ChequeController {
         ssiCheque.setCheReceptor(chequeVO.getCheReceptor());
         ssiCheque.setCheNumero(chequeVO.getCheNumero());
         
-//        ChequeValidator chequeValidator = new ChequeValidator();
-//        chequeValidator.setCheFecha(chequeVO.getCheFechas());
-//        chequeValidator.validate(ssiCheque, result);
+        ChequeValidator chequeValidator = new ChequeValidator();
+        chequeValidator.setCheFecha(chequeVO.getCheFechas());
+        chequeValidator.validate(ssiCheque, result);
 
         List<SsiCheque> lstCheques = new ArrayList();
         HashMap<String, String> cheParameters = new HashMap();
-        
         if (result.hasFieldErrors("cheNumero") == false) {
             cheParameters.put("cheNumero", ssiCheque.getCheNumero());
-        } else if (result.hasFieldErrors("cheReceptor") == false) {
+        } 
+        if (result.hasFieldErrors("cheReceptor") == false) {
             cheParameters.put("cheReceptor", ssiCheque.getCheReceptor());
         } 
-//        else if (result.hasFieldErrors("cheFecha") == false) {
-//            cheParameters.put("cheFechas", chequeVO.getCheFechas());
-//        }
+        if (result.hasFieldErrors("cheFechas") == false) {
+            cheParameters.put("cheFechas", chequeVO.getCheFechas());
+        }
 
         System.out.println(cheParameters);
         
-//        if (cheParameters.size()  0) {
+        if (cheParameters.size() > 0) {
             lstCheques = ssiCheque.findSsiChequesByParameters(cheParameters);
-            System.out.println(lstCheques.size());
-            for(SsiCheque c : lstCheques){
-                System.out.println(c.getCheNumero());
-            }
-//        }
+        }
 
         // model.addAttribute("numero", ssiCheque.getCheNumero());
         // model.addAttribute("concepto", ssiCheque.getCheConcepto());
@@ -76,6 +73,6 @@ public class ChequeController {
         //
 
         System.out.println("busqueda");
-        return ssiCheque;
+        return lstCheques;
     }
 }

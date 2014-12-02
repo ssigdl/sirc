@@ -24,6 +24,11 @@ $(function() {
 		console.log(chequeId);
 	});
 	
+	Number.prototype.padLeft = function(base,chr){
+		var  len = (String(base || 10).length - String(this).length)+1;
+		return len > 0? new Array(len).join(chr || '0')+this : this;
+	};
+	
 	$('#btnSendChecksForm').click(function(event) {
 	    
 		var formData = $("#formSearchCheques :input").serializeArray();
@@ -37,12 +42,20 @@ $(function() {
 	        	console.log("before Send");
             },
             error: function (request, status, error) {            
-                console.log('Error ' + request.responseText + "\n" + status + "\n" + error);
+                console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
             },
             success: function(JSONrespuesta) {
-        		console.log(JSONrespuesta);
+            	$.each(JSONrespuesta, function(i, item) {
+            		var d = new Date(item.cheFecha),
+            		dformat = [ (d.getMonth()+1).padLeft(),
+            		            d.getDate().padLeft(),
+            		            d.getFullYear()].join('/');
+                	console.log(dformat);
+            	});
+//        		console.log(new Date(JSONrespuesta[0].cheFecha).toGMTString());
             }
         });
+		
 //		
 //	    $.ajax({
 //	        url: 'searchChecks',

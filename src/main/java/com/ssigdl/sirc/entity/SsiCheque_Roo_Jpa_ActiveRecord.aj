@@ -3,14 +3,19 @@
 
 package com.ssigdl.sirc.entity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -73,28 +78,32 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
     public static List<SsiCheque> SsiCheque.findSsiChequesByParameters(HashMap<String, String> parameters) {
         
         CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
-        
-        CriteriaQuery<SsiCheque> criteriaQueryCheque = criteriaBuilder.createQuery(SsiCheque.class);
-        Root<SsiCheque> cheque = criteriaQueryCheque.from(SsiCheque.class);
-        Predicate predicate = criteriaBuilder.conjunction();
-        
-//        for (Map.Entry<String, String> param: parameters.entrySet())
+        CriteriaQuery<SsiCheque> query = criteriaBuilder.createQuery(SsiCheque.class);
+
+        Root<SsiCheque> fromSsiCheque = query.from(SsiCheque.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
         if(parameters.containsKey("cheNumero")){
-            System.out.println("flock");
-            Expression<String> path = cheque.get("cheNumero");
-            Expression<String> parameter = criteriaBuilder.parameter(String.class, parameters.get("cheNumero"));
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(path, parameter));
+            System.out.println("Param " + parameters.get("cheNumero"));
+            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheNumero"), "%" + parameters.get("cheNumero") + "%"));
+        }
+        if(parameters.containsKey("cheFechas")){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            
+            String[] fechas = parameters.get("cheFechas").split(" - ");
+            try {
+                predicates.add(criteriaBuilder.between(fromSsiCheque.<Date>get("cheFecha").as(Date.class), formatter.parse(fechas[0]), formatter.parse(fechas[1])));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(parameters.containsKey("cheReceptor")){
+            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheReceptor"), "%" + parameters.get("cheReceptor") + "%" ));
         }
         
-        criteriaQueryCheque.where(predicate);
-        
-        String jpaQuery = "SELECT o FROM SsiCheque o WHERE 1=1"
-        		+ (parameters.containsKey("cheNumero") ? " AND o.cheNumero = :cheNumero " :"")
-        		+ (parameters.containsKey("cheReceptor") ? " AND o.cheReceptor = :cheReceptor " :"")
-        		+ (parameters.containsKey("cheFechas") ? " AND o.cheFecha BETWEEN :fromDate AND : toDate " :"")
-        		+ "";
-        
-        return entityManager().createQuery(criteriaQueryCheque.select(cheque)).getResultList();
+        query.select(fromSsiCheque)
+        .where(predicates.toArray(new Predicate[]{}));
+        return entityManager().createQuery(query).getResultList();
     }
 
     @Transactional

@@ -20,10 +20,10 @@ public class ChequeValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         SsiCheque ssiCheque = (SsiCheque) target;
-
         
+//        
         if(cheFechas != null && cheFechas.equals("")){
-            errors.rejectValue("cheFecha", "empty");
+            errors.rejectValue("cheFechas", "empty");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cheNumero", "empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cheReceptor", "empty");
