@@ -78,7 +78,7 @@
 							</div>
 							<!-- /.form group -->
 							<div class="box-footer" style="float: right; margin: 0; padding: 0;">
-								<button id="btnSendChecksForm" class="btn btn-info" type="button">
+								<button id="btnSendChecksForm" class="btn btn-info" type="submit">
 									<spring:message code="body_search" />
 								</button>
 							</div>

@@ -7,13 +7,8 @@ $(function() {
 		return false;
 	});
 
-	if (searchErrorsCount < 3) {
-		$("#searchBox").addClass("box-primary");
-		$("#search_error_alert").hide();
-	} else if (searchErrorsCount == 3) {
-		$("#searchBox").addClass("box-danger");
-		$("#search_error_alert").show();
-	}
+	$("#searchBox").addClass("box-primary");
+	$("#search_error_alert").hide();
 
 	$("#searchResultTbl > tbody > tr > td:not(:has(button))").click(function() {
 		console.log($($(this).closest("tr")).attr("id"));
@@ -29,32 +24,7 @@ $(function() {
 		return len > 0? new Array(len).join(chr || '0')+this : this;
 	};
 	
-	$('#btnSendChecksForm').click(function(event) {
-	    
-		var formData = $("#formSearchCheques :input").serializeArray();
 		
-	    console.log(formData);
-		$.ajax({
-            type: "POST",
-            url: "searchChecks",
-            data: formData,
-            beforeSend: function ( xhr ) {
-	        	console.log("before Send");
-            },
-            error: function (request, status, error) {            
-                console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
-            },
-            success: function(JSONrespuesta) {
-            	$.each(JSONrespuesta, function(i, item) {
-            		var d = new Date(item.cheFecha),
-            		dformat = [ (d.getMonth()+1).padLeft(),
-            		            d.getDate().padLeft(),
-            		            d.getFullYear()].join('/');
-                	console.log(dformat);
-            	});
-//        		console.log(new Date(JSONrespuesta[0].cheFecha).toGMTString());
-            }
-        });
 		
 //		
 //	    $.ajax({
@@ -84,6 +54,52 @@ $(function() {
 //	        }
 //	    });
 //	      
-	    event.preventDefault();
-	});
+
+});
+
+$(document).on('submit','#formSearchCheques',function(e) {
+	e.preventDefault();
+	var formData = $("#formSearchCheques :input").serializeArray();
+	var searchErrorsCount = 0;
+	if ($.trim($("#formSearchCheques #cheNumero").val()) !== '' 
+		&& $.trim($("#formSearchCheques #cheReceptor").val()) !== ''
+		&& $.trim($("#formSearchCheques #cheFechas").val()) !== '') {
+		
+		$("#searchBox").addClass("box-primary");
+		$("#search_error_alert").hide();
+		
+		console.log(formData);
+		
+		$.ajax({
+			type: "POST",
+			url: "searchChecks",
+			data: formData,
+			beforeSend: function ( xhr ) {
+				console.log("before Send");
+			},
+			error: function (request, status, error) {            
+				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
+			},
+			success: function(JSONrespuesta) {
+				console.log(JSONrespuesta);
+				
+				$.each(JSONrespuesta, function(i, item) {
+					var d = new Date(item.cheFecha),
+					dformat = [ (d.getMonth()+1).padLeft(),
+					            d.getDate().padLeft(),
+					            d.getFullYear()].join('/');
+					
+					
+					
+					console.log(dformat);
+				});
+//    		console.log(new Date(JSONrespuesta[0].cheFecha).toGMTString());
+			}
+		});
+	} else {
+		$("#searchBox").addClass("box-danger");
+		$("#search_error_alert").show();
+	}
+	return false;
+//    event.preventDefault();
 });
