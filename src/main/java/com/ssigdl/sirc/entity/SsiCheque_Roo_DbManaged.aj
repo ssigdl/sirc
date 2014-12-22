@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ssigdl.sirc.config.CustomDateSerializer;
 
 privileged aspect SsiCheque_Roo_DbManaged {
     
@@ -46,6 +48,7 @@ privileged aspect SsiCheque_Roo_DbManaged {
         this.cheNumero = cheNumero;
     }
     
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date SsiCheque.getCheFecha() {
         return cheFecha;
     }

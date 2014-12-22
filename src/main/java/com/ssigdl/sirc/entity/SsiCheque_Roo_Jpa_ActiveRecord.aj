@@ -21,6 +21,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssigdl.sirc.vo.ChequeVO;
+
 privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
 
     @PersistenceContext
@@ -75,7 +77,7 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, SsiCheque.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
-    public static List<SsiCheque> SsiCheque.findSsiChequesByParameters(HashMap<String, String> parameters) {
+    public static List<SsiCheque> SsiCheque.findSsiChequesByParameters(ChequeVO chequeVO) {
         
         CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
         CriteriaQuery<SsiCheque> query = criteriaBuilder.createQuery(SsiCheque.class);
@@ -83,22 +85,22 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         Root<SsiCheque> fromSsiCheque = query.from(SsiCheque.class);
         List<Predicate> predicates = new ArrayList<Predicate>();
 
-        if(parameters.containsKey("cheNumero")){
-            System.out.println("Param " + parameters.get("cheNumero"));
-            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheNumero"), "%" + parameters.get("cheNumero") + "%"));
+        if(chequeVO.getCheNumero() != null && chequeVO.getCheNumero().equals("") == false){
+            System.out.println("Param " + chequeVO.getCheNumero());
+            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheNumero"), "%" +chequeVO.getCheNumero() + "%"));
         }
-        if(parameters.containsKey("cheFechas")){
+        if(chequeVO.getCheFechas() != null && chequeVO.getCheFechas().equals("") == false){
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             
-            String[] fechas = parameters.get("cheFechas").split(" - ");
+            String[] fechas = chequeVO.getCheFechas().split(" - ");
             try {
                 predicates.add(criteriaBuilder.between(fromSsiCheque.<Date>get("cheFecha").as(Date.class), formatter.parse(fechas[0]), formatter.parse(fechas[1])));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        if(parameters.containsKey("cheReceptor")){
-            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheReceptor"), "%" + parameters.get("cheReceptor") + "%" ));
+        if(chequeVO.getCheReceptor() != null && chequeVO.getCheReceptor().equals("") == false){
+            predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheReceptor"), "%" + chequeVO.getCheReceptor() + "%" ));
         }
         
         query.select(fromSsiCheque)

@@ -62,8 +62,8 @@ $(document).on('submit','#formSearchCheques',function(e) {
 	var formData = $("#formSearchCheques :input").serializeArray();
 	var searchErrorsCount = 0;
 	if ($.trim($("#formSearchCheques #cheNumero").val()) !== '' 
-		&& $.trim($("#formSearchCheques #cheReceptor").val()) !== ''
-		&& $.trim($("#formSearchCheques #cheFechas").val()) !== '') {
+		|| $.trim($("#formSearchCheques #cheReceptor").val()) !== ''
+		|| $.trim($("#formSearchCheques #cheFechas").val()) !== '') {
 		
 		$("#searchBox").addClass("box-primary");
 		$("#search_error_alert").hide();
