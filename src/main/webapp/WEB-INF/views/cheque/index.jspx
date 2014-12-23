@@ -2,7 +2,7 @@
 <aside class="right-side" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" >
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
@@ -90,85 +90,68 @@
 				</div>
 				<!-- /.box -->
 
-				<c:if test="${lstCheques != null}">
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">
-								<spring:message arguments="${menu_item_checks}" code="body_registeredMale" />
-							</h3>
-						</div>
-						<!-- /.box-header -->
-						<div class="box-body table-responsive no-padding">
-							<table id="searchResultTbl" class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th style="width: 10px"> </th>
-										<th style="width: 10px">#</th>
-										<th >
-											<spring:message code="check_number" />
-										</th>
-										<th >
-											<spring:message code="check_date" />
-										</th>
-										<th >
-											<spring:message code="check_amount" />
-										</th>
-										<th >
-											<spring:message code="check_receiver" />
-										</th>
-										<th >
-											<spring:message code="check_concept" />
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${lstCheques}" var="item" varStatus="lstCounter">
-										<tr id="${item.cheId}">
-											<td align="center">
-                                                <button type="button" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-trash-o">&#160;</i>
-                                                </button> 
-                                            </td>
-											<td align="center">${lstCounter.index + 1}</td>
-											<td align="center">${item.cheNumero}</td>
-											<td align="center"> <fmt:formatDate value="${item.cheFecha}" pattern="dd/MM/yyyy" /> </td>
-											<td align="center">${item.cheMonto}</td>
-											<td align="center">${item.cheReceptor}</td>
-											<td align="center">${item.cheConcepto}</td>
-										</tr>
-									</c:forEach>
-									<c:if test="${lstCheques.size() == 0}">
-										<tr>
-											<td colspan="7" style="text-align: center;">
-												<spring:message code="body_noResultsFound" />
-											</td>
-										</tr>
-									</c:if>
-								</tbody>
-							</table>
-						</div>
-						<!-- /.box-body -->
-						<div class="box-footer clearfix">
-							<ul class="pagination pagination-sm no-margin pull-right">
-								<li>
-									<a href="#">&#171;</a>
-								</li>
-								<li>
-									<a href="#">1</a>
-								</li>
-								<li>
-									<a href="#">2</a>
-								</li>
-								<li>
-									<a href="#">3</a>
-								</li>
-								<li>
-									<a href="#">&#187;</a>
-								</li>
-							</ul>
-						</div>
+
+				<div class="box" id="searchChecksBox" style="display: none;">
+					<div class="box-header">
+						<h3 class="box-title">
+							<spring:message arguments="${menu_item_checks}" code="body_registeredMale" />
+						</h3>
 					</div>
-				</c:if>
+					<!-- /.box-header -->
+					<div class="box-body table-responsive no-padding">
+						<table id="searchResultTbl" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px"></th>
+									<th style="width: 10px">#</th>
+									<th>
+										<spring:message code="check_number" />
+									</th>
+									<th>
+										<spring:message code="check_date" />
+									</th>
+									<th>
+										<spring:message code="check_amount" />
+									</th>
+									<th>
+										<spring:message code="check_receiver" />
+									</th>
+									<th>
+										<spring:message code="check_concept" />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="trNoResult" style="display:none">
+									<td colspan="7" style="text-align: center;">
+										<spring:message code="body_noResultsFound" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer clearfix">
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<li>
+								<a href="#">&#171;</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">&#187;</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
 				<!-- /.box -->
 
 

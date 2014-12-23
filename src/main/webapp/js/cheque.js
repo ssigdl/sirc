@@ -67,8 +67,8 @@ $(document).on('submit','#formSearchCheques',function(e) {
 		
 		$("#searchBox").addClass("box-primary");
 		$("#search_error_alert").hide();
-		
-		console.log(formData);
+		$("#searchResultTbl > tbody > tr#trNoResult").hide();
+		$("#searchResultTbl > tbody > tr:not(:last)").remove();
 		
 		$.ajax({
 			type: "POST",
@@ -82,17 +82,30 @@ $(document).on('submit','#formSearchCheques',function(e) {
 			},
 			success: function(JSONrespuesta) {
 				console.log(JSONrespuesta);
+				$("#searchChecksBox").show();
 				
-				$.each(JSONrespuesta, function(i, item) {
-					var d = new Date(item.cheFecha),
-					dformat = [ (d.getMonth()+1).padLeft(),
-					            d.getDate().padLeft(),
-					            d.getFullYear()].join('/');
-					
-					
-					
-					console.log(dformat);
-				});
+				if(JSONrespuesta.length > 0 ){
+					var trNew = '';
+					$.each(JSONrespuesta, function(i, item) {
+						trNew += '<tr id="' + item.cheId + '">' + 
+									'<td align="center">' + 
+										'<button type="button" class="btn btn-danger btn-sm">' + 
+											'<i class="fa fa-trash-o"></i>' +
+										'</button>' + 
+									'</td>' +
+									'<td align="center">' + (i + 1) +' </td>' +
+									'<td align="center">' + item.cheNumero +'</td>' +
+									'<td align="center">' + item.cheFecha +'</td>' +
+									'<td align="center">' + item.cheMonto + '</td>' +
+									'<td align="center">' + item.cheReceptor + '</td>' +
+									'<td align="center">' + item.cheConcepto + '</td>' +
+								'</tr>';
+					});
+					$("#searchResultTbl > tbody > tr#trNoResult").before(trNew);
+				}
+				else{
+					$("#searchResultTbl > tbody > tr#trNoResult").show();
+				}
 //    		console.log(new Date(JSONrespuesta[0].cheFecha).toGMTString());
 			}
 		});
