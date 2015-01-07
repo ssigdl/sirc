@@ -14,15 +14,11 @@ $(function() {
 		console.log($($(this).closest("tr")).attr("id"));
 	});
 
-	$("#searchResultTbl .btn").click(function(){
+	$("#searchResultTbl .deleteCheck").click(function(){
 		var chequeId = $($(this).closest("tr")).attr("id");
 		console.log(chequeId);
 	});
-	
-	Number.prototype.padLeft = function(base,chr){
-		var  len = (String(base || 10).length - String(this).length)+1;
-		return len > 0? new Array(len).join(chr || '0')+this : this;
-	};
+
 	
 		
 		
@@ -89,7 +85,7 @@ $(document).on('submit','#formSearchCheques',function(e) {
 					$.each(JSONrespuesta, function(i, item) {
 						trNew += '<tr id="' + item.cheId + '">' + 
 									'<td align="center">' + 
-										'<button type="button" class="btn btn-danger btn-sm">' + 
+										'<button type="button" class="btn btn-danger btn-sm deleteCheck">' + 
 											'<i class="fa fa-trash-o"></i>' +
 										'</button>' + 
 									'</td>' +
@@ -106,7 +102,6 @@ $(document).on('submit','#formSearchCheques',function(e) {
 				else{
 					$("#searchResultTbl > tbody > tr#trNoResult").show();
 				}
-//    		console.log(new Date(JSONrespuesta[0].cheFecha).toGMTString());
 			}
 		});
 	} else {
@@ -114,5 +109,4 @@ $(document).on('submit','#formSearchCheques',function(e) {
 		$("#search_error_alert").show();
 	}
 	return false;
-//    event.preventDefault();
 });
