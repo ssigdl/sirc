@@ -1,4 +1,4 @@
-package com.ssigdl.sirc.config;
+package com.ssigdl.sirc.serializer;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
