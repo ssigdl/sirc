@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ssigdl.sirc.serializer.CurrencySerializer;
 import com.ssigdl.sirc.serializer.CustomDateSerializer;
 
 privileged aspect SsiCheque_Roo_DbManaged {
@@ -29,6 +30,7 @@ privileged aspect SsiCheque_Roo_DbManaged {
     private Date SsiCheque.cheFecha;
     
     @JsonProperty("cheMonto")
+    @JsonSerialize(using = CurrencySerializer.class)
     @Column(name = "che_monto", precision = 10, scale = 2)
     private BigDecimal SsiCheque.cheMonto;
     
