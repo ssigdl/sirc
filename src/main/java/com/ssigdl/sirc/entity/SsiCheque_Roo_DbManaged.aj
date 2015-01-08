@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ssigdl.sirc.config.CustomDateSerializer;
+import com.ssigdl.sirc.serializer.CustomDateSerializer;
 
 privileged aspect SsiCheque_Roo_DbManaged {
     
