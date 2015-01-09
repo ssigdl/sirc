@@ -19,6 +19,8 @@ $(function() {
 		console.log(chequeId);
 	});
 
+	$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    $("[data-mask]").inputmask();
 	
 		
 		
@@ -53,13 +55,13 @@ $(function() {
 
 });
 
-$(document).on('submit','#formSearchCheques',function(e) {
+$(document).on('submit','#formSearchChecks',function(e) {
 	e.preventDefault();
-	var formData = $("#formSearchCheques :input").serializeArray();
+	var formData = $("#formSearchChecks :input").serializeArray();
 	var searchErrorsCount = 0;
-	if ($.trim($("#formSearchCheques #cheNumero").val()) !== '' 
-		|| $.trim($("#formSearchCheques #cheReceptor").val()) !== ''
-		|| $.trim($("#formSearchCheques #cheFechas").val()) !== '') {
+	if ($.trim($("#formSearchChecks #cheNumero").val()) !== '' 
+		|| $.trim($("#formSearchChecks #cheReceptor").val()) !== ''
+		|| $.trim($("#formSearchChecks #cheFechas").val()) !== '') {
 		
 		$("#searchBox").addClass("box-primary");
 		$("#search_error_alert").hide();

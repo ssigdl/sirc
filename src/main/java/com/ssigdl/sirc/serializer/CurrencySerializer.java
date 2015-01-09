@@ -2,8 +2,7 @@ package com.ssigdl.sirc.serializer;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.DecimalFormat;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,7 +14,9 @@ public class CurrencySerializer extends JsonSerializer<BigDecimal>  {
 
     @Override
     public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
-        gen.writeString(value.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        DecimalFormat formatter = new DecimalFormat("#,###,###,###,###,###.00");
+        
+        gen.writeString(formatter.format(value));
     }
 
 }
