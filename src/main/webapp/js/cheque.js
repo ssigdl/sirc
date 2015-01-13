@@ -1,6 +1,4 @@
 $(function() {
-	var searchErrorsCount = $("#formErrorCount").val().replace(/'/g, "");
-
 	// Date range picker
 	$('#cheFechas').daterangepicker();
 	$('#cheFechas').keypress(function(evt) {
@@ -8,7 +6,7 @@ $(function() {
 	});
 
 	$("#searchBox").addClass("box-primary");
-	$("#search_error_alert").hide();
+	$("#search_error_alert, #add_error_alert").hide();
 
 	$("#searchResultTbl > tbody > tr > td:not(:has(button))").click(function() {
 		console.log($($(this).closest("tr")).attr("id"));
@@ -18,47 +16,26 @@ $(function() {
 		var chequeId = $($(this).closest("tr")).attr("id");
 		console.log(chequeId);
 	});
-
-	$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-    $("[data-mask]").inputmask();
 	
-		
-		
-//		
-//	    $.ajax({
-//	        url: 'searchChecks',
-//	        data: JSON.stringify(values),
-//	        type: "POST",
-//	        dataType : 'json',
-//	        contentType: "application/json",
-//	        beforeSend: function(xhr) {
-//
-////	            xhr.setRequestHeader("Accept", "application/json");
-////	            xhr.setRequestHeader("Content-Type", "application/json");
-//	        },
-//	        error: function (request, status, error) {            
-//               console.log('Error ' + request.responseText + "\n" + status + "\n" + error);
-//            },
-//	        success: function(response) {
-////	            var respContent = "";
-////	             
-////	            respContent += "<span class='success'>Smartphone was created: [";
-////	            respContent += smartphone.producer + " : ";
-////	            respContent += smartphone.model + " : " ;
-////	            respContent += smartphone.price + "]</span>";
-////	             
-////	            $("#sPhoneFromResponse").html(respContent);    
-//	        	console.log("arf arf");
-//	        }
-//	    });
-//	      
+	$("#btnSwitchMode").click(function(){
+		toggleAddSearchViews();
+	});
+	
+	$(".close").click(function(event){
+		/* Para evitar que haga los eventos preprogramados apra la ventana */
+		event.stopPropagation();
+		$(this).parent().hide();
+	});
 
 });
 
-$(document).on('submit','#formSearchChecks',function(e) {
+$(document)
+
+/*Evento de envio de formulario de busqueda*/
+
+.on('submit','#formSearchChecks',function(e) {
 	e.preventDefault();
 	var formData = $("#formSearchChecks :input").serializeArray();
-	var searchErrorsCount = 0;
 	if ($.trim($("#formSearchChecks #cheNumero").val()) !== '' 
 		|| $.trim($("#formSearchChecks #cheReceptor").val()) !== ''
 		|| $.trim($("#formSearchChecks #cheFechas").val()) !== '') {
@@ -93,9 +70,9 @@ $(document).on('submit','#formSearchChecks',function(e) {
 									'</td>' +
 									'<td align="center">' + (i + 1) +' </td>' +
 									'<td align="center">' + item.cheNumero +'</td>' +
-									'<td align="center">' + item.cheFecha +'</td>' +
-									'<td align="center">' + item.cheMonto + '</td>' +
 									'<td align="center">' + item.cheReceptor + '</td>' +
+									'<td align="center">' + item.cheMonto + '</td>' +
+									'<td align="center">' + item.cheFecha +'</td>' +
 									'<td align="center">' + item.cheConcepto + '</td>' +
 								'</tr>';
 					});
@@ -111,4 +88,81 @@ $(document).on('submit','#formSearchChecks',function(e) {
 		$("#search_error_alert").show();
 	}
 	return false;
-});
+})
+
+/*Evento de envio de formulario de alta*/
+
+.on('submit','#formAddChecks',function(e) {
+	e.preventDefault();
+	var formData = $("#formAddChecks :input").serializeArray();
+	var addErrorsCount = 0;
+	if ($.trim($("#formAddChecks #cheNumero").val()) !== '' 
+		|| $.trim($("#formAddChecks #cheReceptor").val()) !== ''
+			|| $.trim($("#formAddChecks #cheFecha").val()) !== '') {
+		
+		$("#searchBox").addClass("box-primary");
+		$("#search_error_alert").hide();
+		$("#searchResultTbl > tbody > tr#trNoResult").hide();
+		$("#searchResultTbl > tbody > tr:not(:last)").remove();
+		
+		$.ajax({
+			type: "POST",
+			url: "addCheck",
+			data: formData,
+			beforeSend: function ( xhr ) {
+				console.log("before Send");
+			},
+			error: function (request, status, error) {            
+				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
+			},
+			success: function(JSONrespuesta) {
+				console.log(JSONrespuesta);
+				$("#searchChecksBox").show();
+				
+				if(JSONrespuesta.length > 0 ){
+					var trNew = '';
+					$.each(JSONrespuesta, function(i, item) {
+						trNew += '<tr id="' + item.cheId + '">' + 
+						'<td align="center">' + 
+						'<button type="button" class="btn btn-danger btn-sm deleteCheck">' + 
+						'<i class="fa fa-trash-o"></i>' +
+						'</button>' + 
+						'</td>' +
+						'<td align="center">' + (i + 1) +' </td>' +
+						'<td align="center">' + item.cheNumero +'</td>' +
+						'<td align="center">' + item.cheReceptor + '</td>' +
+						'<td align="center">' + item.cheMonto + '</td>' +
+						'<td align="center">' + item.cheFecha +'</td>' +
+						'<td align="center">' + item.cheConcepto + '</td>' +
+						'</tr>';
+					});
+					$("#searchResultTbl > tbody > tr#trNoResult").before(trNew);
+				}
+				else{
+					$("#searchResultTbl > tbody > tr#trNoResult").show();
+				}
+			}
+		});
+	} else {
+		$("#searchBox").addClass("box-danger");
+		$("#add_error_alert").show();
+	}
+	return false;
+})
+.ready(function(){
+	
+	$('#cheFecha').datepicker({
+	    format: "dd/mm/yyyy",
+	    todayBtn: "linked",
+	    autoclose: true,
+	    todayHighlight: true
+    });
+})
+;
+
+var toggleAddSearchViews = function(){
+	$("#box-title-search").toggle();
+	$("#box-title-add").toggle();
+	$("#formAddChecks").toggle();
+	$("#formSearchChecks").toggle();
+};
