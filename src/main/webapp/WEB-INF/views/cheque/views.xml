@@ -15,6 +15,7 @@
             <add-attribute value="/resources/js/AdminLTE/app.js" />
             <add-attribute value="/resources/js/AdminLTE/demo.js" />
             <add-attribute value="/resources/js/plugins/datetimepicker/bootstrap-datepicker.js" />
+            <add-attribute value="/resources/js/jquery.i18n.properties-min-1.0.9.js" />
             <add-attribute value="/resources/js/cheque.js" />
         </put-list-attribute>   
 		<put-list-attribute name="cssList" cascade="true" >

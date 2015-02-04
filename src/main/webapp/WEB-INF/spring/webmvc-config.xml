@@ -50,7 +50,7 @@
 		the application.properties resource bundle localizes all application specific 
 		messages such as entity names and menu items. -->
 	<bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" p:defaultEncoding="ISO-8859-1"
-		id="messageSource" p:basenames="WEB-INF/i18n/messages"
+		id="messageSource" p:basenames="messages"
 		p:fallbackToSystemLocale="false" />
 
 	<!-- Store preferred language configuration in a cookie -->

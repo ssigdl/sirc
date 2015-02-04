@@ -26,7 +26,8 @@ $(function() {
 		event.stopPropagation();
 		$(this).parent().hide();
 	});
-
+	
+    loadBundles('es');
 });
 
 $(document)
@@ -94,7 +95,6 @@ $(document)
 
 .on('submit','#formAddChecks',function(e) {
 	e.preventDefault();
-	var formData = $("#formAddChecks :input").serializeArray();
 	var addErrorsCount = 0;
 	if ($.trim($("#formAddChecks #cheNumero").val()) !== '' 
 		|| $.trim($("#formAddChecks #cheReceptor").val()) !== ''
@@ -105,6 +105,7 @@ $(document)
 		$("#searchResultTbl > tbody > tr#trNoResult").hide();
 		$("#searchResultTbl > tbody > tr:not(:last)").remove();
 		
+		var formData = $("#formAddChecks :input").serializeArray();
 		$.ajax({
 			type: "POST",
 			url: "addCheck",
@@ -115,8 +116,10 @@ $(document)
 			error: function (request, status, error) {            
 				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
 			},
-			success: function(JSONrespuesta) {
-				console.log(JSONrespuesta);
+			success: function(data) {
+				console.log(data);
+			}
+		});
 				$("#searchChecksBox").show();
 				
 				if(JSONrespuesta.length > 0 ){
@@ -166,3 +169,15 @@ var toggleAddSearchViews = function(){
 	$("#formAddChecks").toggle();
 	$("#formSearchChecks").toggle();
 };
+
+function loadBundles(lang) {
+	jQuery.i18n.properties({
+		name:'messages', 
+		path:'../resources/',
+	    mode:'both',
+	    language:lang,
+	    callback: function(){
+//	    	console.log(jQuery.i18n.prop('check_receiver'))
+	    }
+	});
+}
