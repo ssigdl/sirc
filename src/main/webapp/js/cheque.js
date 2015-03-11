@@ -6,7 +6,7 @@ $(function() {
 	});
 
 	$("#searchBox").addClass("box-primary");
-	$("#search_error_alert, #add_error_alert").hide();
+	$("#search_error_alert, #add_error_alert, #add_success_alert").hide();
 
 	$("#searchResultTbl > tbody > tr > td:not(:has(button))").click(function() {
 		console.log($($(this).closest("tr")).attr("id"));
@@ -22,12 +22,15 @@ $(function() {
 	});
 	
 	$(".close").click(function(event){
-		/* Para evitar que haga los eventos preprogramados apra la ventana */
+		/* Para evitar que haga los eventos preprogramados apra el mensaje de error */
 		event.stopPropagation();
 		$(this).parent().hide();
 	});
 	
     loadBundles('es');
+
+    //Muestra texto boton
+    $("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
 });
 
 $(document)
@@ -69,7 +72,7 @@ $(document)
 											'<i class="fa fa-trash-o"></i>' +
 										'</button>' + 
 									'</td>' +
-									'<td align="center">' + (i + 1) +' </td>' +
+									'<td align="center" style="font-weight:bold;">' + (i + 1) +' </td>' +
 									'<td align="center">' + item.cheNumero +'</td>' +
 									'<td align="center">' + item.cheReceptor + '</td>' +
 									'<td align="center">' + item.cheMonto + '</td>' +
@@ -97,56 +100,76 @@ $(document)
 	e.preventDefault();
 	var addErrorsCount = 0;
 	if ($.trim($("#formAddChecks #cheNumero").val()) !== '' 
-		|| $.trim($("#formAddChecks #cheReceptor").val()) !== ''
-			|| $.trim($("#formAddChecks #cheFecha").val()) !== '') {
+		&& $.trim($("#formAddChecks #cheReceptor").val()) !== ''
+			&& $.trim($("#formAddChecks #cheMonto").val()) !== ''
+				&& $.trim($("#formAddChecks #cheFecha").val()) !== '') {
 		
 		$("#searchBox").addClass("box-primary");
-		$("#search_error_alert").hide();
-		$("#searchResultTbl > tbody > tr#trNoResult").hide();
-		$("#searchResultTbl > tbody > tr:not(:last)").remove();
+		$("#add_error_alert").hide();
+		$("#add_success_alert").hide();
 		
-		var formData = $("#formAddChecks :input").serializeArray();
+		var formData = {
+			"cheNumero" : $("#formAddChecks #cheNumero").val(),
+			"cheReceptor" : $("#formAddChecks #cheReceptor").val(),
+			"cheMonto" : $("#formAddChecks #cheMonto").val(),
+			"cheFecha" : $("#formAddChecks #cheFecha").val(),
+			"cheConcepto" : $("#formAddChecks #cheConcepto").val()
+		};
+		
 		$.ajax({
 			type: "POST",
 			url: "addCheck",
-			data: formData,
+			data: JSON.stringify(formData),
+			contentType: "application/json",
+			dataType: "json",
 			beforeSend: function ( xhr ) {
 				console.log("before Send");
 			},
 			error: function (request, status, error) {            
 				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
 			},
-			success: function(data) {
-				console.log(data);
-			}
-		});
-				$("#searchChecksBox").show();
-				
-				if(JSONrespuesta.length > 0 ){
-					var trNew = '';
-					$.each(JSONrespuesta, function(i, item) {
-						trNew += '<tr id="' + item.cheId + '">' + 
-						'<td align="center">' + 
-						'<button type="button" class="btn btn-danger btn-sm deleteCheck">' + 
-						'<i class="fa fa-trash-o"></i>' +
-						'</button>' + 
-						'</td>' +
-						'<td align="center">' + (i + 1) +' </td>' +
-						'<td align="center">' + item.cheNumero +'</td>' +
-						'<td align="center">' + item.cheReceptor + '</td>' +
-						'<td align="center">' + item.cheMonto + '</td>' +
-						'<td align="center">' + item.cheFecha +'</td>' +
-						'<td align="center">' + item.cheConcepto + '</td>' +
-						'</tr>';
-					});
-					$("#searchResultTbl > tbody > tr#trNoResult").before(trNew);
+			success: function(response) {
+				console.log(response);
+				if(response.success == true){
+					$("#add_success_alert").show();
+					$("#searchBox").addClass("box-success");
+					
+					var itemCounter = $("#addResultTbl > tbody > tr:not(:last)").length;
+					var cheNumero = $("#formAddChecks #cheNumero").val();
+					var cheReceptor = $("#formAddChecks #cheReceptor").val();
+					var cheMonto = $("#formAddChecks #cheMonto").val();
+					var cheFecha = $("#formAddChecks #cheFecha").val();
+					var cheConcepto = $("#formAddChecks #cheConcepto").val();
+					
+					//Si no hay registros agregados, quita el mensaje default y limpia tabla
+					if(itemCounter == 0 && $("#addResultTbl > tbody > tr#trNoResult").is(":visible")){
+						$("#addResultTbl > tbody > tr#trNoResult").hide();
+						$("#addResultTbl > tbody > tr:not(:last)").remove();
+					}
+					
+					var trNew = 
+					'<tr id="cheCount' + (itemCounter + 1) + '">' + 
+						'<td align="center" style="font-weight:bold;">' + (itemCounter + 1) +' </td>' +
+						'<td align="center">' + cheNumero +'</td>' +
+						'<td align="center">' + cheReceptor + '</td>' +
+						'<td align="center">' + cheMonto + '</td>' +
+						'<td align="center">' + cheFecha +'</td>' +
+						'<td align="center">' + cheConcepto + '</td>' +
+					'</tr>';
+					$("#addResultTbl > tbody > tr#trNoResult").before(trNew);
+					
+					$("#formAddChecks")[0].reset();
+					console.log("true");
 				}
-				else{
-					$("#searchResultTbl > tbody > tr#trNoResult").show();
+				else if(response.success == false){
+					$("#add_error_alert .txt").text(jQuery.i18n.prop('form_register_fail', jQuery.i18n.prop('menu_item_check')) + ": " + response.message);
+					$("#searchBox").addClass("box-danger");
+					$("#add_error_alert").show();
 				}
 			}
 		});
 	} else {
+		$("#add_error_alert .txt").text(jQuery.i18n.prop('field_required_required_fields'));
 		$("#searchBox").addClass("box-danger");
 		$("#add_error_alert").show();
 	}
@@ -168,6 +191,21 @@ var toggleAddSearchViews = function(){
 	$("#box-title-add").toggle();
 	$("#formAddChecks").toggle();
 	$("#formSearchChecks").toggle();
+	$("#searchChecksBox").toggle();
+	$("#addChecksBox").toggle();
+	
+	$("#searchBox").removeClass("box-danger");
+	$("#searchBox").removeClass("box-success");
+	$("#searchBox").addClass("box-primary");
+	$("#add_success_alert").hide();
+	$("#add_error_alert").hide();
+	
+	if($("#formSearchChecks").is(":visible")){		
+		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
+	}
+	else if($("#formAddChecks").is(":visible")){		
+		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
+	}
 };
 
 function loadBundles(lang) {
@@ -176,8 +214,6 @@ function loadBundles(lang) {
 		path:'../resources/',
 	    mode:'both',
 	    language:lang,
-	    callback: function(){
-//	    	console.log(jQuery.i18n.prop('check_receiver'))
-	    }
+	    callback: function(){   }
 	});
 }
