@@ -9,20 +9,26 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ssigdl.sirc.serializer.CurrencySerializer;
+import com.ssigdl.sirc.serializer.CustomDateDeserializer;
 import com.ssigdl.sirc.serializer.CustomDateSerializer;
 
 privileged aspect SsiCheque_Roo_DbManaged {
     
     @JsonProperty("cheNumero")
-    @NotNull
-    @Column(name = "che_numero", length = 30)
+    @NotEmpty
+    @Column(name = "che_numero", length = 7)
     private String SsiCheque.cheNumero;
     
     @JsonProperty("cheFecha")
@@ -34,11 +40,13 @@ privileged aspect SsiCheque_Roo_DbManaged {
     
     @JsonProperty("cheMonto")
     @NotNull
+    @DecimalMax(value = "99999999.99")
     @JsonSerialize(using = CurrencySerializer.class)
     @Column(name = "che_monto", precision = 10, scale = 2)
     private BigDecimal SsiCheque.cheMonto;
     
     @JsonProperty("cheReceptor")
+    @NotEmpty
     @Column(name = "che_receptor", length = 100)
     private String SsiCheque.cheReceptor;
     
@@ -55,6 +63,7 @@ privileged aspect SsiCheque_Roo_DbManaged {
     }
     
     @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     public Date SsiCheque.getCheFecha() {
         return cheFecha;
     }

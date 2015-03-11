@@ -19,7 +19,7 @@ privileged aspect SsiCategoriaTemporal_Roo_Jpa_Entity {
     declare @type: SsiCategoriaTemporal: @Table(name = "ssi_categoria_temporal");
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "catt_id")
     private Integer SsiCategoriaTemporal.cattId;
     

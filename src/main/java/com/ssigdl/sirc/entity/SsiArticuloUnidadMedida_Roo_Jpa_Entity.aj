@@ -19,7 +19,7 @@ privileged aspect SsiArticuloUnidadMedida_Roo_Jpa_Entity {
     declare @type: SsiArticuloUnidadMedida: @Table(name = "ssi_articulo_unidad_medida");
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arum_id")
     private Integer SsiArticuloUnidadMedida.arumId;
     

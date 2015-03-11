@@ -19,7 +19,7 @@ privileged aspect SsiFacturaServicioRel_Roo_Jpa_Entity {
     declare @type: SsiFacturaServicioRel: @Table(name = "ssi_factura_servicio_rel");
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fase_id")
     private Integer SsiFacturaServicioRel.faseId;
     

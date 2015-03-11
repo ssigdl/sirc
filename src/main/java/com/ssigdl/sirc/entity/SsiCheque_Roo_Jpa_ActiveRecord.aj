@@ -86,7 +86,6 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         List<Predicate> predicates = new ArrayList<Predicate>();
 
         if(chequeVO.getCheNumero() != null && chequeVO.getCheNumero().equals("") == false){
-            System.out.println("Param " + chequeVO.getCheNumero());
             predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheNumero"), "%" +chequeVO.getCheNumero() + "%"));
         }
         if(chequeVO.getCheFechas() != null && chequeVO.getCheFechas().equals("") == false){

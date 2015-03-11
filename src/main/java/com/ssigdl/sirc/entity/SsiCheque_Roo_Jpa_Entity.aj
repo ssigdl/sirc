@@ -3,6 +3,7 @@
 
 package com.ssigdl.sirc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssigdl.sirc.entity.SsiCheque;
 
 import javax.persistence.Column;
@@ -19,7 +20,8 @@ privileged aspect SsiCheque_Roo_Jpa_Entity {
     declare @type: SsiCheque: @Table(name = "ssi_cheque");
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     @Column(name = "che_id")
     private Integer SsiCheque.cheId;
     

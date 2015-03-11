@@ -19,7 +19,7 @@ privileged aspect SsiTelefonoCat_Roo_Jpa_Entity {
     declare @type: SsiTelefonoCat: @Table(name = "ssi_telefono_cat");
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "telc_id")
     private Integer SsiTelefonoCat.telcId;
     
