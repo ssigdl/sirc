@@ -53,12 +53,26 @@
 <!-- 				<menu:item id="i_controller__telefonoareaindex_id" messageCode="global_generic" url="/telefonoArea/index" z="P+TGdQCsIq4mjpFZ9m1FQdVt8og=" /> -->
 <!-- 				<menu:item id="i_controller__empresatipoindex_id" messageCode="global_generic" url="/empresaTipo/index" z="a1xvncSCWYvtaf03hlZRMuqYkUk=" /> -->
 <!-- 				<menu:item id="i_controller__empresadetalleindex_id" messageCode="global_generic" url="/empresaDetalle/index" z="46EEcYGqG0bVew0rOByoNu6bjn0=" /> -->
-				<li>
-					<a href="${pageContext.request.contextPath}/cheque/index">
-						<i class="fa  fa-envelope-o">&#160;</i>
-						<spring:message code="menu_item_checks" var="menu_item_checks" />
-						<spring:message arguments="${menu_item_checks}" code="menu_management" />
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-envelope-o">&#160;</i>
+						<spring:message code="menu_item_checks" />
+						<i class="fa fa-angle-left pull-right">&#160;</i>
 					</a>
+					<ul class="treeview-menu">
+						<li>
+							<a href="${pageContext.request.contextPath}/check/readCheck">
+								<i class="fa fa-angle-double-right">&#160;</i>
+								<spring:message code="body_search" />
+							</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/check/createCheck">
+								<i class="fa fa-angle-double-right">&#160;</i>
+								<spring:message code="body_add" />
+							</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="${pageContext.request.contextPath}/pages/ui/icons">

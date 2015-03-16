@@ -187,24 +187,28 @@ $(document)
 ;
 
 var toggleAddSearchViews = function(){
-	$("#box-title-search").toggle();
-	$("#box-title-add").toggle();
-	$("#formAddChecks").toggle();
-	$("#formSearchChecks").toggle();
-	$("#searchChecksBox").toggle();
-	$("#addChecksBox").toggle();
+//	$("#box-title-search").toggle();
+//	$("#box-title-add").toggle();
+//	$("#formAddChecks").toggle();
+//	$("#formSearchChecks").toggle();
+//	$("#searchChecksBox").toggle();
+//	$("#addChecksBox").toggle();
+//	
+//	$("#searchBox").removeClass("box-danger");
+//	$("#searchBox").removeClass("box-success");
+//	$("#searchBox").addClass("box-primary");
+//	$("#add_success_alert").hide();
+//	$("#add_error_alert").hide();
 	
-	$("#searchBox").removeClass("box-danger");
-	$("#searchBox").removeClass("box-success");
-	$("#searchBox").addClass("box-primary");
-	$("#add_success_alert").hide();
-	$("#add_error_alert").hide();
 	
-	if($("#formSearchChecks").is(":visible")){		
-		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
+	
+	if($("#formSearchChecks").length){	
+		window.location.href= 'createCheck';
+//		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
 	}
-	else if($("#formAddChecks").is(":visible")){		
-		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
+	else if($("#formAddChecks").length){
+		window.location.href= 'readCheck';
+//		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
 	}
 };
 

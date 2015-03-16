@@ -34,7 +34,7 @@ import com.ssigdl.sirc.entity.SsiCheque;
 import com.ssigdl.sirc.validator.ChequeValidator;
 import com.ssigdl.sirc.vo.ChequeVO;
 
-@RequestMapping("/cheque")
+@RequestMapping("/check")
 @Controller
 public class ChequeController {
 
@@ -44,9 +44,14 @@ public class ChequeController {
 
 	}
 
-	@RequestMapping(value = { "/", "/index" })
-	public ModelAndView index() {
-		return new ModelAndView("cheque/index", "ssiCheque", new SsiCheque());
+	@RequestMapping(value = { "/readCheck" })
+	public ModelAndView readCheck() {
+		return new ModelAndView("check/readCheck", "ssiCheque", new SsiCheque());
+	}
+
+	@RequestMapping(value = { "/createCheck" })
+	public ModelAndView createCheck() {
+		return new ModelAndView("check/createCheck", "ssiCheque", new SsiCheque());
 	}
 
 	@RequestMapping(value = "/searchChecks", method = RequestMethod.POST)
