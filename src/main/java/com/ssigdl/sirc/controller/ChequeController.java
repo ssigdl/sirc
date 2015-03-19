@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,20 +39,18 @@ import com.ssigdl.sirc.vo.ChequeVO;
 @Controller
 public class ChequeController {
 
-	@RequestMapping(method = RequestMethod.POST, value = "{id}")
-	public void post(@PathVariable Long id, ModelMap modelMap,
-			HttpServletRequest request, HttpServletResponse response) {
-
+	@RequestMapping(value = { "/readCheck", "/createCheck"})
+	public ModelAndView readCreateCheck(HttpServletRequest request) {
+		String path = request.getServletPath();
+		return new ModelAndView(path.substring(1, path.length()), "ssiCheque", new SsiCheque());
 	}
 
-	@RequestMapping(value = { "/readCheck" })
-	public ModelAndView readCheck() {
-		return new ModelAndView("check/readCheck", "ssiCheque", new SsiCheque());
-	}
-
-	@RequestMapping(value = { "/createCheck" })
-	public ModelAndView createCheck() {
-		return new ModelAndView("check/createCheck", "ssiCheque", new SsiCheque());
+	//Se enviara a la pagina de create con un ID 
+	@RequestMapping(value = { "/updateCheck"})
+	public ModelAndView updateCheck(@RequestParam("editCheId") int id) {
+		System.out.println(id);
+		SsiCheque ssiCheque = new SsiCheque();
+		return new ModelAndView("check/createCheck", "ssiCheque", ssiCheque.findSsiCheque(id));
 	}
 
 	@RequestMapping(value = "/searchChecks", method = RequestMethod.POST)

@@ -4,6 +4,7 @@
 package com.ssigdl.sirc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssigdl.sirc.entity.SsiCheque;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ privileged aspect SsiCheque_Roo_Jpa_Entity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    @JsonProperty("cheId")
     @Column(name = "che_id")
     private Integer SsiCheque.cheId;
     

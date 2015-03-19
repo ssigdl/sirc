@@ -40,7 +40,7 @@
 					</div>
 					<br />
 					<div style="float: right;">
-						<button type="button" class="btn btn-info" id="btnSwitchMode">
+						<button type="button" class="btn btn-primary" id="btnSwitchMode">
 							<i class="fa fa-exchange">&#160;</i> 
 							<spring:message code="body_add" var="body_add" />
 							<spring:message code="body_switch_view" arguments="${body_add}" />
@@ -79,7 +79,7 @@
 							</div>
 							<!-- /.form group -->
 							<div class="box-footer" style="float: right; margin: 0; padding: 0;">
-								<button id="btnSendChecksForm" class="btn btn-primary" type="submit">
+								<button id="btnSendChecksForm" class="btn btn-info" type="submit">
 									<spring:message code="body_search" />
 								</button>
 							</div>
@@ -105,6 +105,7 @@
 						<table id="searchResultTbl" class="table table-bordered table-striped">
 							<thead>
 								<tr>
+									<th style="width: 10px"></th>
 									<th style="width: 10px"></th>
 									<th style="width: 10px">#</th>
 									<th><spring:message arguments="${menu_item_check}" code="body_number_of" /></th>
