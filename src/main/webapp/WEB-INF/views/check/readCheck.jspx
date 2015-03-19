@@ -28,7 +28,7 @@
 			<!-- left column -->
 			<div class="col-md-6">
 				<!-- general form elements -->
-				<div id="searchBox" class="box">
+				<div id="searchBox" class="box box-primary">
 					<input type="hidden" name="formErrorCount" id="formErrorCount"
 						value="'${requestScope['org.springframework.validation.BindingResult.ssiCheque'].getErrorCount()}'" />
 
@@ -48,7 +48,7 @@
 						&#160;&#160;&#160;
 					</div>
 					<br /> <br />
-					<form:form id="formSearchChecks" role="form" action="searchChecks" modelAttribute="ssiCheque" method="post">
+					<form:form id="formSearchChecks" role="form" modelAttribute="ssiCheque" method="post">
 						<div class="box-body">
 							<div id="search_error_alert" class="alert alert-danger alert-dismissable">
 								<i class="fa fa-ban">&#160;</i>

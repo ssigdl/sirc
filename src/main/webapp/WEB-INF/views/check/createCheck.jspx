@@ -4,13 +4,13 @@
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 	<!-- Content Header (Page header) -->
+	
+	<spring:message code="menu_item_checks" var="menu_item_checks" />
+	<spring:message code="menu_item_check" var="menu_item_check" />
+
 	<section class="content-header">
 		<h1>
-			<spring:message code="menu_item_checks" var="menu_item_checks" />
-			<spring:message code="menu_item_check" var="menu_item_check" />
 			<spring:message arguments="${menu_item_checks}" code="menu_management" />
-			<spring:message code="body_switch_view" var="varLanguague_body_switch_view" />
-
 			<small> <spring:message code="control_panel" />
 			</small>
 		</h1>
@@ -29,14 +29,14 @@
 			<!-- left column -->
 			<div class="col-md-6">
 				<!-- general form elements -->
-				<div id="searchBox" class="box">
+				<div id="addBox" class="box box-primary">
 					<input type="hidden" name="formErrorCount" id="formErrorCount"
 						value="'${requestScope['org.springframework.validation.BindingResult.ssiCheque'].getErrorCount()}'" />
 
 					<div class="box-header">
 						<h3 class="box-title" id="box-title-add">
 							<i class="fa fa-plus">&#160;</i>
-							<spring:message arguments="${menu_item_check}" code="body_addNewMale" />
+							<spring:message arguments="${menu_item_check}" code="body_addNew" />
 						</h3>
 					</div>
 					<br />
@@ -49,7 +49,8 @@
 						&#160;&#160;&#160;
 					</div>
 					<br /> <br />
-					<form:form id="formAddChecks" role="form" action="addChecks" modelAttribute="ssiCheque" method="post" >
+					<form:form id="formAddCheck" role="form" modelAttribute="ssiCheque" method="post" >
+						<form:input path="cheId" value="" type="hidden" />
 						<div class="box-body">
 							<div id="add_success_alert" class="alert alert-success alert-dismissable">
 								<i class="fa fa-check">&#160;</i>
@@ -84,7 +85,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar">&#160;</i>
 									</div>
-									<form:input path="cheFecha" class="form-control" />
+									<form:input path="cheFecha" class="form-control" value="${formattedCheFecha}" />
 								</div>
 								<!-- /.input group -->
 							</div>
@@ -95,7 +96,7 @@
 							</div>
 							<!-- /.form group -->
 							<div class="box-footer" style="float: right; margin: 0; padding: 0;">
-								<button id="btnAddChecksForm" class="btn btn-info" type="submit">
+								<button id="btnAddCheckForm" class="btn btn-info" type="submit">
 									<spring:message code="body_add" />
 								</button>
 							</div>
@@ -105,11 +106,15 @@
 					<!-- /.box-body -->
 				</div>
 				<!-- /.box -->
+<!-- 				Dialogo para cargar la ventana de edicion -->
+				<div id="dialog" title="Basic dialog">
+			  		<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+				</div>
 			</div>
 			<!-- /.row -->
 
 			<div class="col-md-6">
-				<div class="box box-info" id="addChecksBox" >
+				<div class="box box-info" id="addCheckBox" >
 					<div class="box-header">
 						<i class="fa fa-list-ol">&#160;</i>
 						<h3 class="box-title">
@@ -121,6 +126,7 @@
 						<table id="addResultTbl" class="table table-bordered table-striped">
 							<thead>
 								<tr>
+									<th style="width: 10px"></th>
 									<th style="width: 10px">#</th>
 									<th><spring:message arguments="${menu_item_check}" code="body_number_of" /></th>
 									<th><spring:message code="check_receiver" /></th>

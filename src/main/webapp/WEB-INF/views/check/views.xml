@@ -35,6 +35,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/check/createCheck.jspx" />
 		<put-list-attribute name="jsList" cascade="true">
             <add-attribute value="/resources/js/jquery.min.js" />
+             <add-attribute value="/resources/js/jquery-ui-1.10.3.min.js" />
             <add-attribute value="/resources/js/bootstrap.min.js" />
             <add-attribute value="/resources/js/plugins/input-mask/jquery.inputmask.js" />
             <add-attribute value="/resources/js/plugins/input-mask/jquery.inputmask.date.extensions.js" />
