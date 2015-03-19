@@ -5,8 +5,7 @@ $(function() {
 		return false;
 	});
 
-	$("#searchBox").addClass("box-primary");
-	$("#search_error_alert, #add_error_alert, #add_success_alert").hide();
+	$(".alert-dismissable").hide();
 
 	$("#searchResultTbl > tbody > tr > td:not(:has(button))").click(function() {
 		console.log($($(this).closest("tr")).attr("id"));
@@ -28,9 +27,18 @@ $(function() {
 	});
 	
     loadBundles('es');
-
-    //Muestra texto boton
-    $("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
+    
+    $( "#dialog" ).dialog();
+//	$("#dialog").dialog({
+//	    autoOpen: false,
+//	    position: 'center' ,
+//	    title: 'EDIT',
+//	    draggable: false,
+//	    width : 300,
+//	    height : 40, 
+//	    resizable : false,
+//	    modal : true,
+//	});
 });
 
 $(document)
@@ -51,7 +59,7 @@ $(document)
 		
 		$.ajax({
 			type: "POST",
-			url: "searchChecks",
+			url: "check/search",
 			data: formData,
 			beforeSend: function ( xhr ) {
 				console.log("before Send");
@@ -60,7 +68,6 @@ $(document)
 				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
 			},
 			success: function(JSONrespuesta) {
-//				console.log(JSONrespuesta);
 				$("#searchChecksBox").show();
 				
 				if(JSONrespuesta.length > 0 ){
@@ -75,9 +82,9 @@ $(document)
 										'</button>' + 
 									'</td>' +
 									'<td align="center">' + 
-										'<form id="frmEdit' + item.cheId + ' role="form" method="post" action="updateCheck">' +
+										'<form id="frmEdit' + item.cheId + ' role="form" method="post" action="check/updateCheck">' +
 											'<input type="hidden" value="' + item.cheId + '" name="editCheId" id="editCheId" />' + 
-											'<button type="submit" class="btn btn-primary btn-sm deleteCheck btnCheckEdit" title="' + lblUpdate + '" onclick="javascript: submitBtnCheckEdit(' + item.cheId + ');">' + 
+											'<button type="submit" class="btn btn-primary btn-sm deleteCheck btnCheckEdit" title="' + lblUpdate + '" >' + 
 												'<i class="fa fa-edit"></i>' +
 											'</button>' +
 										'</form>' + 	
@@ -104,31 +111,123 @@ $(document)
 	return false;
 })
 
-/*Evento de envio de formulario de alta*/
+/*Evento de envio de formulario de creacion*/
 
-.on('submit','#formAddChecks',function(e) {
+.on('submit','#formAddCheck',function(e) {
 	e.preventDefault();
 	var addErrorsCount = 0;
-	if ($.trim($("#formAddChecks #cheNumero").val()) !== '' 
-		&& $.trim($("#formAddChecks #cheReceptor").val()) !== ''
-			&& $.trim($("#formAddChecks #cheMonto").val()) !== ''
-				&& $.trim($("#formAddChecks #cheFecha").val()) !== '') {
+	if ($.trim($("#formAddCheck #cheNumero").val()) !== '' 
+		&& $.trim($("#formAddCheck #cheReceptor").val()) !== ''
+			&& $.trim($("#formAddCheck #cheMonto").val()) !== ''
+				&& $.trim($("#formAddCheck #cheFecha").val()) !== '') {
 		
 		$("#searchBox").addClass("box-primary");
 		$("#add_error_alert").hide();
 		$("#add_success_alert").hide();
 		
 		var formData = {
-			"cheNumero" : $("#formAddChecks #cheNumero").val(),
-			"cheReceptor" : $("#formAddChecks #cheReceptor").val(),
-			"cheMonto" : $("#formAddChecks #cheMonto").val(),
-			"cheFecha" : $("#formAddChecks #cheFecha").val(),
-			"cheConcepto" : $("#formAddChecks #cheConcepto").val()
+			cheNumero : $("#formAddCheck #cheNumero").val(),
+			cheReceptor : $("#formAddCheck #cheReceptor").val(),
+			cheMonto : $("#formAddCheck #cheMonto").val(),
+			cheFecha : $("#formAddCheck #cheFecha").val(),
+			cheConcepto : $("#formAddCheck #cheConcepto").val()
 		};
 		
 		$.ajax({
 			type: "POST",
-			url: "addCheck",
+			url: "check/add",
+			data: JSON.stringify(formData),
+			contentType: "application/json",
+			dataType: "json",
+			beforeSend: function ( xhr ) {
+				console.log("before Send");
+			},
+			error: function (request, status, error) {            
+				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
+			},
+			success: function(response) {
+				if(response.success == true){
+					$("#add_success_alert").show();
+					$("#searchBox").addClass("box-success");
+					
+					var itemCounter = $("#addResultTbl > tbody > tr:not(:last)").length;
+					var cheNumero = $("#formAddCheck #cheNumero").val();
+					var cheReceptor = $("#formAddCheck #cheReceptor").val();
+					var cheMonto = $("#formAddCheck #cheMonto").val();
+					var cheFecha = $("#formAddCheck #cheFecha").val();
+					var cheConcepto = $("#formAddCheck #cheConcepto").val();
+//					' + response.cheId + ', 
+					setAddedValuesToEdit(formData);
+					//Si no hay registros agregados, quita el mensaje default y limpia tabla
+					if(itemCounter == 0 && $("#addResultTbl > tbody > tr#trNoResult").is(":visible")){
+						$("#addResultTbl > tbody > tr#trNoResult").hide();
+						$("#addResultTbl > tbody > tr:not(:last)").remove();
+					}
+					var lblUpdate = jQuery.i18n.prop('entity_update', jQuery.i18n.prop('menu_item_check'));
+					var trNew = 
+					'<tr id="trChe' + (response.cheId) + '">' + 
+						'<td align="center">' + 
+							'<button type="submit" class="btn btn-primary btn-sm deleteCheck btnCheckEdit" title="' + lblUpdate + '" >' + 
+								'<i class="fa fa-edit"></i>' +
+							'</button>' +
+						'</td>' +
+						'<td align="center" style="font-weight:bold;">' + (itemCounter + 1) +' </td>' +
+						'<td align="center">' + cheNumero +'</td>' +
+						'<td align="center">' + cheReceptor + '</td>' +
+						'<td align="center">' + cheMonto + '</td>' +
+						'<td align="center">' + cheFecha +'</td>' +
+						'<td align="center">' + cheConcepto + '</td>' +
+					'</tr>';
+					$("#addResultTbl > tbody > tr#trNoResult").before(trNew);
+					
+					$("#trChe" + response.cheId + " .btnCheckEdit").click(function(){
+						formData.cheId = response.cheId;
+						setAddedValuesToEdit(formData);
+					});
+					
+					$("#formAddCheck")[0].reset();
+				}
+				else if(response.success == false){
+					$("#add_error_alert .txt").text(jQuery.i18n.prop('form_register_fail', jQuery.i18n.prop('menu_item_check')) + ": " + response.message);
+					$("#addBox").addClass("box-danger");
+					$("#add_error_alert").show();
+				}
+			}
+		});
+	} else {
+		$("#add_error_alert .txt").text(jQuery.i18n.prop('field_required_required_fields'));
+		$("#searchBox").addClass("box-danger");
+		$("#add_error_alert").show();
+	}
+	return false;
+})
+
+/*Evento de envio de formulario de edicion*/
+
+.on('submit','#formEditCheck',function(e) {
+	e.preventDefault();
+	var addErrorsCount = 0;
+	if ($.trim($("#formEditCheck #cheNumero").val()) !== '' 
+		&& $.trim($("#formEditCheck #cheReceptor").val()) !== ''
+			&& $.trim($("#formEditCheck #cheMonto").val()) !== ''
+				&& $.trim($("#formEditCheck #cheFecha").val()) !== '') {
+		
+		$("#searchBox").addClass("box-primary");
+		$("#add_error_alert").hide();
+		$("#add_success_alert").hide();
+		
+		var formData = {
+			"cheId" : $("#formEditCheck #cheId").val(),
+			"cheNumero" : $("#formEditCheck #cheNumero").val(),
+			"cheReceptor" : $("#formEditCheck #cheReceptor").val(),
+			"cheMonto" : $("#formEditCheck #cheMonto").val(),
+			"cheFecha" : $("#formEditCheck #cheFecha").val(),
+			"cheConcepto" : $("#formEditCheck #cheConcepto").val()
+		};
+		
+		$.ajax({
+			type: "POST",
+			url: "check/edit",
 			data: JSON.stringify(formData),
 			contentType: "application/json",
 			dataType: "json",
@@ -141,40 +240,13 @@ $(document)
 			success: function(response) {
 				console.log(response);
 				if(response.success == true){
-					$("#add_success_alert").show();
+					$("#edit_success_alert").show();
 					$("#searchBox").addClass("box-success");
-					
-					var itemCounter = $("#addResultTbl > tbody > tr:not(:last)").length;
-					var cheNumero = $("#formAddChecks #cheNumero").val();
-					var cheReceptor = $("#formAddChecks #cheReceptor").val();
-					var cheMonto = $("#formAddChecks #cheMonto").val();
-					var cheFecha = $("#formAddChecks #cheFecha").val();
-					var cheConcepto = $("#formAddChecks #cheConcepto").val();
-					
-					//Si no hay registros agregados, quita el mensaje default y limpia tabla
-					if(itemCounter == 0 && $("#addResultTbl > tbody > tr#trNoResult").is(":visible")){
-						$("#addResultTbl > tbody > tr#trNoResult").hide();
-						$("#addResultTbl > tbody > tr:not(:last)").remove();
-					}
-					
-					var trNew = 
-					'<tr id="cheCount' + (itemCounter + 1) + '">' + 
-						'<td align="center" style="font-weight:bold;">' + (itemCounter + 1) +' </td>' +
-						'<td align="center">' + cheNumero +'</td>' +
-						'<td align="center">' + cheReceptor + '</td>' +
-						'<td align="center">' + cheMonto + '</td>' +
-						'<td align="center">' + cheFecha +'</td>' +
-						'<td align="center">' + cheConcepto + '</td>' +
-					'</tr>';
-					$("#addResultTbl > tbody > tr#trNoResult").before(trNew);
-					
-					$("#formAddChecks")[0].reset();
-					console.log("true");
 				}
 				else if(response.success == false){
-					$("#add_error_alert .txt").text(jQuery.i18n.prop('form_register_fail', jQuery.i18n.prop('menu_item_check')) + ": " + response.message);
-					$("#searchBox").addClass("box-danger");
-					$("#add_error_alert").show();
+					$("#edit_error_alert .txt").text(jQuery.i18n.prop('form_update_fail', jQuery.i18n.prop('menu_item_check')) + ": " + response.message);
+					$("#editBox").addClass("box-danger");
+					$("#edit_error_alert").show();
 				}
 			}
 		});
@@ -197,91 +269,31 @@ $(document)
 ;
 
 var toggleAddSearchViews = function(){
-//	$("#box-title-search").toggle();
-//	$("#box-title-add").toggle();
-//	$("#formAddChecks").toggle();
-//	$("#formSearchChecks").toggle();
-//	$("#searchChecksBox").toggle();
-//	$("#addChecksBox").toggle();
-//	
-//	$("#searchBox").removeClass("box-danger");
-//	$("#searchBox").removeClass("box-success");
-//	$("#searchBox").addClass("box-primary");
-//	$("#add_success_alert").hide();
-//	$("#add_error_alert").hide();
-	
-	
-	
 	if($("#formSearchChecks").length){	
-		window.location.href= 'createCheck';
+		window.location.href= 'check/createCheck';
 //		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
 	}
-	else if($("#formAddChecks").length){
-		window.location.href= 'readCheck';
+	else if($("#formAddCheck").length || $("#formEditCheck").length){
+		window.location.href= 'check/readCheck';
 //		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
 	}
 };
 
-var submitBtnCheckEdit = function(cheId){
-	console.log(cheId);
-	$.ajax({
-		type: "POST",
-		url: "addCheck",
-		data: JSON.stringify(formData),
-		contentType: "application/json",
-		dataType: "json",
-		beforeSend: function ( xhr ) {
-			console.log("before Send");
-		},
-		error: function (request, status, error) {            
-			console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
-		},
-		success: function(response) {
-			console.log(response);
-			if(response.success == true){
-				$("#add_success_alert").show();
-				$("#searchBox").addClass("box-success");
-				
-				var itemCounter = $("#addResultTbl > tbody > tr:not(:last)").length;
-				var cheNumero = $("#formAddChecks #cheNumero").val();
-				var cheReceptor = $("#formAddChecks #cheReceptor").val();
-				var cheMonto = $("#formAddChecks #cheMonto").val();
-				var cheFecha = $("#formAddChecks #cheFecha").val();
-				var cheConcepto = $("#formAddChecks #cheConcepto").val();
-				
-				//Si no hay registros agregados, quita el mensaje default y limpia tabla
-				if(itemCounter == 0 && $("#addResultTbl > tbody > tr#trNoResult").is(":visible")){
-					$("#addResultTbl > tbody > tr#trNoResult").hide();
-					$("#addResultTbl > tbody > tr:not(:last)").remove();
-				}
-				
-				var trNew = 
-				'<tr id="cheCount' + (itemCounter + 1) + '">' + 
-					'<td align="center" style="font-weight:bold;">' + (itemCounter + 1) +' </td>' +
-					'<td align="center">' + cheNumero +'</td>' +
-					'<td align="center">' + cheReceptor + '</td>' +
-					'<td align="center">' + cheMonto + '</td>' +
-					'<td align="center">' + cheFecha +'</td>' +
-					'<td align="center">' + cheConcepto + '</td>' +
-				'</tr>';
-				$("#addResultTbl > tbody > tr#trNoResult").before(trNew);
-				
-				$("#formAddChecks")[0].reset();
-				console.log("true");
-			}
-			else if(response.success == false){
-				$("#add_error_alert .txt").text(jQuery.i18n.prop('form_register_fail', jQuery.i18n.prop('menu_item_check')) + ": " + response.message);
-				$("#searchBox").addClass("box-danger");
-				$("#add_error_alert").show();
-			}
-		}
-	});
+var setAddedValuesToEdit = function(cheData){
+	console.log(cheData);
+
+
+//	$("#dialog_trigger").click( function() {
+	    $("#dialog").load('check/updateCheck', function() {
+	        $("#dialog").dialog("open");
+	    });
+//	})
 };
 
 function loadBundles(lang) {
 	jQuery.i18n.properties({
 		name:'messages', 
-		path:'../resources/',
+		path:'resources/',
 	    mode:'both',
 	    language:lang,
 	    callback: function(){   }

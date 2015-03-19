@@ -48,17 +48,16 @@ public class ChequeController {
 	//Se enviara a la pagina de create con un ID 
 	@RequestMapping(value = { "/updateCheck"})
 	public ModelAndView updateCheck(@RequestParam("editCheId") int id) {
-		System.out.println(id);
-		SsiCheque ssiCheque = new SsiCheque();
-		return new ModelAndView("check/createCheck", "ssiCheque", ssiCheque.findSsiCheque(id));
+		SsiCheque ssiCheque = SsiCheque.findSsiCheque(id);
+		return new ModelAndView("check/updateCheck", "ssiCheque", ssiCheque);
 	}
 
-	@RequestMapping(value = "/searchChecks", method = RequestMethod.POST)
-	public @ResponseBody List<SsiCheque> searchChecks(@Valid ChequeVO chequeVO,
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public @ResponseBody List<SsiCheque> search(@Valid ChequeVO chequeVO,
 			BindingResult result) {
 
 		// ModelAndView mav = new ModelAndView("cheque/index");
-		SsiCheque ssiCheque = new SsiCheque();
+//		SsiCheque ssiCheque = new SsiCheque();
 		// ssiCheque.setCheReceptor(chequeVO.getCheReceptor());
 		// ssiCheque.setCheNumero(chequeVO.getCheNumero());
 		//
@@ -82,7 +81,7 @@ public class ChequeController {
 		// }
 
 		if (result.getErrorCount() < 3) {
-			lstCheques = ssiCheque.findSsiChequesByParameters(chequeVO);
+			lstCheques = SsiCheque.findSsiChequesByParameters(chequeVO);
 		}
 
 		// model.addAttribute("numero", ssiCheque.getCheNumero());
@@ -93,15 +92,34 @@ public class ChequeController {
 		return lstCheques;
 	}
 
-	@RequestMapping(value = "/addCheck", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String addChecks(
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String add(
 			@RequestBody @Valid SsiCheque ssiCheque, BindingResult result) throws JSONException {
 		JSONObject json = new JSONObject();
-		System.out.println(ssiCheque);
-
 		try {
 			if (result.hasErrors() == false) {
-//				ssiCheque.persist();
+				ssiCheque.persist();
+				json.put("success", true);
+				json.put("cheId", ssiCheque.getCheId());
+			} else {
+				json.put("success", false);
+				json.put("message", result.getFieldError().getField().substring(3, result.getFieldError().getField().length()) + " " + result.getFieldError().getDefaultMessage());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			json.put("message", e.getMessage());
+			e.printStackTrace();
+		}
+		return json.toString();
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String edit(
+			@RequestBody @Valid SsiCheque ssiCheque, BindingResult result) throws JSONException {
+		JSONObject json = new JSONObject();
+		try {
+			if (result.hasErrors() == false) {
+				ssiCheque.merge();
 				json.put("success", true);
 			} else {
 				json.put("success", false);
