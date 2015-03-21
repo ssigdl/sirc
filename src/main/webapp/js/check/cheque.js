@@ -28,17 +28,6 @@ $(function() {
 	
     loadBundles('es');
     
-    $( "#dialog" ).dialog();
-//	$("#dialog").dialog({
-//	    autoOpen: false,
-//	    position: 'center' ,
-//	    title: 'EDIT',
-//	    draggable: false,
-//	    width : 300,
-//	    height : 40, 
-//	    resizable : false,
-//	    modal : true,
-//	});
 });
 
 $(document)
@@ -156,8 +145,7 @@ $(document)
 					var cheMonto = $("#formAddCheck #cheMonto").val();
 					var cheFecha = $("#formAddCheck #cheFecha").val();
 					var cheConcepto = $("#formAddCheck #cheConcepto").val();
-//					' + response.cheId + ', 
-					setAddedValuesToEdit(formData);
+
 					//Si no hay registros agregados, quita el mensaje default y limpia tabla
 					if(itemCounter == 0 && $("#addResultTbl > tbody > tr#trNoResult").is(":visible")){
 						$("#addResultTbl > tbody > tr#trNoResult").hide();
@@ -265,6 +253,8 @@ $(document)
 	    autoclose: true,
 	    todayHighlight: true
     });
+	
+	$("#dialog").dialog();
 })
 ;
 
@@ -282,11 +272,15 @@ var toggleAddSearchViews = function(){
 var setAddedValuesToEdit = function(cheData){
 	console.log(cheData);
 
+	//Me quede en que voy a hacer usando el dialog de jQueryUI uso del Modal Form para hacer una funcion unica reusable en los 2 lugares de buscar y agregar
+	//A pArte voy a separar este script
+	
+	//	$("#dialog_trigger").click( function() {
 
-//	$("#dialog_trigger").click( function() {
-	    $("#dialog").load('check/updateCheck', function() {
-	        $("#dialog").dialog("open");
-	    });
+	
+	//	    $("#dialog").load('check/updateCheck', {'editCheId': cheData.cheId}, function() {
+//
+//	    });
 //	})
 };
 

@@ -10,6 +10,7 @@ $(function() {
         "font-size": "16px",
         "z-index": "999999",
         cursor: "pointer",
+        display: "none",
         color: "#ddd"
     }).html("<i class='fa fa-gear'></i>").addClass("no-print");
 
