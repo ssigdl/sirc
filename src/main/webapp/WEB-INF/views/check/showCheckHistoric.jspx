@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aside xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+	<spring:message code="menu_item_check" var="menu_item_check" />
+
+	<div class="box-body table-responsive no-padding" style="overflow-x: auto;">
+		<table id="addResultTbl" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th style="width: 10px"></th>
+					<th style="width: 10px">#</th>
+					<th><spring:message arguments="${menu_item_check}" code="body_number_of" /></th>
+					<th><spring:message code="check_receiver" /></th>
+					<th><spring:message code="check_amount" /></th>
+					<th><spring:message code="check_date" /></th>
+					<th><spring:message code="check_concept" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="trNoResult">
+					<td colspan="7" style="text-align: center;"><spring:message code="body_noRecordsAdded" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</aside>

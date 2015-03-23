@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ssigdl.sirc.entity.SsiCheque;
+import com.ssigdl.sirc.helper.ResultListWrapper;
 import com.ssigdl.sirc.validator.ChequeValidator;
 import com.ssigdl.sirc.vo.ChequeVO;
 
@@ -39,25 +41,25 @@ import com.ssigdl.sirc.vo.ChequeVO;
 @Controller
 public class ChequeController {
 
-	@RequestMapping(value = { "/readCheck", "/createCheck"})
-	public ModelAndView readCreateCheck(HttpServletRequest request) {
-		String path = request.getServletPath();
-		return new ModelAndView(path.substring(1, path.length()), "ssiCheque", new SsiCheque());
+	@RequestMapping(value = { "/manageCheck"})
+	public ModelAndView readCreateCheck(Model model) {
+		model.addAttribute("chequeVO", new ChequeVO());
+		model.addAttribute("ssiCheque", new SsiCheque());
+		return new ModelAndView("check/manageCheck");
 	}
 
 	//Se enviara a la pagina de create con un ID 
 	@RequestMapping(value = { "/updateCheck"})
-	public ModelAndView updateCheck(@RequestParam("editCheId") int id) {
-		SsiCheque ssiCheque = SsiCheque.findSsiCheque(id);
-		return new ModelAndView("check/updateCheck", "ssiCheque", ssiCheque);
+	public @ResponseBody SsiCheque updateCheck(@RequestParam("editCheId") int id) {
+		return SsiCheque.findSsiCheque(id);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public @ResponseBody List<SsiCheque> search(@Valid ChequeVO chequeVO,
+	public @ResponseBody ResultListWrapper<SsiCheque> search(@Valid ChequeVO chequeVO,
 			BindingResult result) {
 
-		// ModelAndView mav = new ModelAndView("cheque/index");
-//		SsiCheque ssiCheque = new SsiCheque();
+		ResultListWrapper<SsiCheque> resultListWrapper = new ResultListWrapper<SsiCheque>();
+		
 		// ssiCheque.setCheReceptor(chequeVO.getCheReceptor());
 		// ssiCheque.setCheNumero(chequeVO.getCheNumero());
 		//
@@ -65,31 +67,14 @@ public class ChequeController {
 		// chequeValidator.setCheFecha(chequeVO.getCheFechas());
 		// chequeValidator.validate(ssiCheque, result);
 
-		List<SsiCheque> lstCheques = new ArrayList();
-		// HashMap<String, String> cheParameters = new HashMap();
-		// if (result.hasFieldErrors("cheNumero") == false) {
-		// System.out.println("1");
-		// cheParameters.put("cheNumero", ssiCheque.getCheNumero());
-		// }
-		// if (result.hasFieldErrors("cheReceptor") == false) {
-		// System.out.println("2");
-		// cheParameters.put("cheReceptor", ssiCheque.getCheReceptor());
-		// }
-		// if (result.hasFieldErrors("cheFechas") == false) {
-		// System.out.println("3");
-		// cheParameters.put("cheFechas", chequeVO.getCheFechas());
-		// }
-
 		if (result.getErrorCount() < 3) {
-			lstCheques = SsiCheque.findSsiChequesByParameters(chequeVO);
+			resultListWrapper = SsiCheque.findSsiChequesByParameters(chequeVO);
 		}
 
 		// model.addAttribute("numero", ssiCheque.getCheNumero());
 		// model.addAttribute("concepto", ssiCheque.getCheConcepto());
 		// model.addAttribute("receptor", ssiCheque.getCheReceptor());
-		//
-
-		return lstCheques;
+		return resultListWrapper;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

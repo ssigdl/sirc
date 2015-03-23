@@ -37,7 +37,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 </head>
-<body class="skin-black fixed">
+<body class="skin-blue fixed">
 	<tiles:insertAttribute name="header" />
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<tiles:insertAttribute name="menu" />
@@ -47,7 +47,7 @@
 	<!-- jQuery 2.0.2 -->
 	<script src="${js_url}/jquery.min.js"></script>
 	<!-- jQuery UI 1.10.3 -->
-	<script src="${js_url}/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+	<script src="${js_url}/jquery-ui.min.js" type="text/javascript"></script>
 	<!-- Bootstrap -->
 	<script src="${js_url}/bootstrap.min.js" type="text/javascript"></script>
 	<!--     Morris.js charts -->

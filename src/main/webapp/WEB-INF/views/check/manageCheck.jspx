@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aside class="right-side" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			<spring:message code="menu_item_checks" var="menu_item_checks" />
+			<spring:message code="menu_item_check" var="menu_item_check" />
+			<spring:message arguments="${menu_item_checks}" code="menu_management" />
+
+			<small> <spring:message code="control_panel" />
+			</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><i class="fa fa-dashboard"> <a href="${index_url}"> <spring:message code="button_home" />
+				</a>
+			</i></li>
+
+			<li class="active"><spring:message arguments="${menu_item_checks}" code="menu_management" /></li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="row">
+			<!-- left column -->
+			<div class="col-md-6">
+				<!-- general form elements -->
+				<div id="accordionLeft" class="accordionSection">
+					<h3>
+						<i class="fa fa-search">&#160;</i>
+						<spring:message arguments="${menu_item_check}" code="body_search_by" />
+					</h3>
+					<div id="searchBox" class="box box-primary">
+						<jsp:include page="readCheck.jspx" />&#160;
+					</div>
+					<h3>
+						<i class="fa fa-plus">&#160;</i>
+						<spring:message arguments="${menu_item_check}" code="body_addNew" />
+					</h3>
+					<div id="addBox" class="box box-primary">
+						<jsp:include page="createCheck.jspx" />&#160;
+					</div>
+					<h3>
+						<i class="fa fa-edit">&#160;</i>
+						<spring:message arguments="${menu_item_check}" code="body_edit" />
+					</h3>
+					<div id="editBox" class="box box-primary">
+						<jsp:include page="updateCheck.jspx" />&#160;
+					</div>					
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<div class="col-md-6">
+				<div id="accordionRight" class="accordionSection">
+					<h3>
+						<i class="fa fa-list-ol">&#160;</i>
+						<spring:message arguments="${menu_item_checks}" code="body_registeredMale" />
+					</h3>
+					<div id="showCheckSearchResultBox" class="box box-info">
+						<jsp:include page="showCheckSearchResult.jspx" />&#160;
+					</div>
+					<h3>
+						<i class="fa fa-list-ol">&#160;</i>
+						<spring:message arguments="${menu_item_checks}" code="body_addedMale" />
+					</h3>
+					<div id="editAddCheckBox" class="box box-info">
+						<jsp:include page="showCheckHistoric.jspx" />&#160;
+					</div>
+				</div>
+			</div>
+			<!--/.col (right) -->
+		</div>
+		<!--/.col (left) -->
+	</section>
+	<!-- /.content -->
+</aside>
+<!-- /.right-side -->

@@ -21,6 +21,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssigdl.sirc.bl.BusinessLogicSettings;
+import com.ssigdl.sirc.helper.ResultListWrapper;
 import com.ssigdl.sirc.vo.ChequeVO;
 
 privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
@@ -77,23 +79,23 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, SsiCheque.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
-    public static List<SsiCheque> SsiCheque.findSsiChequesByParameters(ChequeVO chequeVO) {
+    public static ResultListWrapper<SsiCheque> SsiCheque.findSsiChequesByParameters(ChequeVO chequeVO) {
         
         CriteriaBuilder criteriaBuilder = entityManager().getCriteriaBuilder();
         CriteriaQuery<SsiCheque> query = criteriaBuilder.createQuery(SsiCheque.class);
-
+        
         Root<SsiCheque> fromSsiCheque = query.from(SsiCheque.class);
         List<Predicate> predicates = new ArrayList<Predicate>();
 
         if(chequeVO.getCheNumero() != null && chequeVO.getCheNumero().equals("") == false){
             predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheNumero"), "%" +chequeVO.getCheNumero() + "%"));
         }
-        if(chequeVO.getCheFechas() != null && chequeVO.getCheFechas().equals("") == false){
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        if(chequeVO.getCheFechaFrom() != null && chequeVO.getCheFechaFrom().equals("") == false 
+		&& chequeVO.getCheFechaTo() != null && chequeVO.getCheFechaTo().equals("") == false){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             
-            String[] fechas = chequeVO.getCheFechas().split(" - ");
             try {
-                predicates.add(criteriaBuilder.between(fromSsiCheque.<Date>get("cheFecha").as(Date.class), formatter.parse(fechas[0]), formatter.parse(fechas[1])));
+                predicates.add(criteriaBuilder.between(fromSsiCheque.<Date>get("cheFecha").as(Date.class), formatter.parse(chequeVO.getCheFechaFrom()), formatter.parse(chequeVO.getCheFechaTo())));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -101,12 +103,16 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         if(chequeVO.getCheReceptor() != null && chequeVO.getCheReceptor().equals("") == false){
             predicates.add(criteriaBuilder.like(fromSsiCheque.<String>get("cheReceptor"), "%" + chequeVO.getCheReceptor() + "%" ));
         }
+               
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        countQuery.select(criteriaBuilder.count(fromSsiCheque)).where(predicates.toArray(new Predicate[]{}));
+        Long totalPages = (entityManager().createQuery(countQuery).getSingleResult() / BusinessLogicSettings.results_limit) + 1;
         
         query.select(fromSsiCheque)
         .where(predicates.toArray(new Predicate[]{}));
-        return entityManager().createQuery(query).getResultList();
+        return new ResultListWrapper<SsiCheque>(totalPages, entityManager().createQuery(query).setFirstResult((chequeVO.getPageIndex() - 1) * BusinessLogicSettings.results_limit).setMaxResults(BusinessLogicSettings.results_limit).getResultList());
     }
-
+    
     @Transactional
     public void SsiCheque.persist() {
         if (this.entityManager == null)

@@ -1,144 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<aside class="right-side" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+<aside xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
-	<!-- Content Header (Page header) -->
-	<section class="content-header">
-		<h1>
-			<spring:message code="menu_item_checks" var="menu_item_checks" />
-			<spring:message code="menu_item_check" var="menu_item_check" />
-			<spring:message arguments="${menu_item_checks}" code="menu_management" />
 
-			<small> <spring:message code="control_panel" />
-			</small>
-		</h1>
-		<ol class="breadcrumb">
-			<li><i class="fa fa-dashboard"> <a href="${index_url}"> <spring:message code="button_home" />
-				</a>
-			</i></li>
-
-			<li class="active"><spring:message arguments="${menu_item_checks}" code="menu_management" /></li>
-		</ol>
-	</section>
-
-	<!-- Main content -->
-	<section class="content">
-		<div class="row">
-			<!-- left column -->
-			<div class="col-md-6">
-				<!-- general form elements -->
-				<div id="searchBox" class="box box-primary">
-					<input type="hidden" name="formErrorCount" id="formErrorCount"
-						value="'${requestScope['org.springframework.validation.BindingResult.ssiCheque'].getErrorCount()}'" />
-
-					<div class="box-header">
-						<h3 class="box-title" id="box-title-search">
-							<i class="fa fa-search">&#160;</i>
-							<spring:message arguments="${menu_item_check}" code="body_search_by" />
-						</h3>
-					</div>
-					<br />
-					<div style="float: right;">
-						<button type="button" class="btn btn-primary" id="btnSwitchMode">
-							<i class="fa fa-exchange">&#160;</i> 
-							<spring:message code="body_add" var="body_add" />
-							<spring:message code="body_switch_view" arguments="${body_add}" />
-						</button>
-						&#160;&#160;&#160;
-					</div>
-					<br /> <br />
-					<form:form id="formSearchChecks" role="form" modelAttribute="ssiCheque" method="post">
-						<div class="box-body">
-							<div id="search_error_alert" class="alert alert-danger alert-dismissable">
-								<i class="fa fa-ban">&#160;</i>
-								<button id="btnSearchDismisser" type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
-								<b> <spring:message code="field_required_one_field" />
-								</b>
-							</div>
-							<div class="form-group">
-								<label for="cheNumero" id="lbl_cheNumero"> <spring:message arguments="${menu_item_check}" code="body_number_of" />
-								</label>
-								<form:input path="cheNumero" class="form-control" type="number" min="1000000" max="9999999" placeholder="1000000" />
-							</div>
-							<div class="form-group">
-								<label for="cheReceptor" id="lbl_cheReceptor"> <spring:message code="check_receiver" />
-								</label>
-								<form:input path="cheReceptor" class="form-control" />
-							</div>
-							<div class="form-group">
-								<label for="cheFechas" id="lbl_cheFechas"> <spring:message code="body_date_range" />
-								</label>
-								<div class="input-group">
-									<div class="input-group-addon">
-										<i class="fa fa-calendar">&#160;</i>
-									</div>
-									<input type="text" class="form-control pull-right" id="cheFechas" name="cheFechas" />
-								</div>
-								<!-- /.input group -->
-							</div>
-							<!-- /.form group -->
-							<div class="box-footer" style="float: right; margin: 0; padding: 0;">
-								<button id="btnSendChecksForm" class="btn btn-info" type="submit">
-									<spring:message code="body_search" />
-								</button>
-							</div>
-							<br /> <br />
-						</div>
-					</form:form>
-					<!-- /.box-body -->
-				</div>
-				<!-- /.box -->
+	<spring:message code="menu_item_check" var="menu_item_check" />
+	
+	<form:form id="formSearchChecks" role="form" modelAttribute="chequeVO" method="post">
+		<form:input path="pageIndex" value="1" type="hidden" />
+		<input type="hidden" id="eventFirer" value="sendFirstTime" />
+		<div class="box-body">
+			<div id="search_error_alert" class="alert alert-danger alert-dismissable">
+				<i class="fa fa-ban">&#160;</i>
+				<button id="btnSearchDismisser" type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+				<b> <spring:message code="field_required_one_field" />
+				</b>
 			</div>
-			<!-- /.row -->
-
-			<div class="col-md-6">
-				<div class="box box-info" id="searchChecksBox">
-					<div class="box-header">
-						<i class="fa fa-list-ol">&#160;</i>
-						<h3 class="box-title">
-							<spring:message arguments="${menu_item_checks}" code="body_registeredMale" />
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body table-responsive no-padding" style="overflow-x: auto;">
-						<table id="searchResultTbl" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 10px"></th>
-									<th style="width: 10px"></th>
-									<th style="width: 10px">#</th>
-									<th><spring:message arguments="${menu_item_check}" code="body_number_of" /></th>
-									<th><spring:message code="check_receiver" /></th>
-									<th><spring:message code="check_amount" /></th>
-									<th><spring:message code="check_date" /></th>
-									<th><spring:message code="check_concept" /></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr id="trNoResult">
-									<td colspan="7" style="text-align: center;"><spring:message code="body_noResultsFound" /></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- /.box-body -->
-					<div class="box-footer clearfix">
-						<ul class="pagination pagination-sm no-margin pull-right">
-							<li><a href="#">&#171;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">&#187;</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /.box -->
+			<div class="form-group">
+				<label for="cheNumero" id="lbl_cheNumero"> <spring:message arguments="${menu_item_check}" code="body_number_of" />
+				</label>
+				<form:input path="cheNumero" class="form-control" type="number" min="1000000" max="9999999" placeholder="1000000" />
 			</div>
-			<!--/.col (right) -->
+			<div class="form-group">
+				<label for="cheReceptor" id="lbl_cheReceptor"> <spring:message code="check_receiver" />
+				</label>
+				<form:input path="cheReceptor" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="cheFechaFrom" id="lbl_cheFechas"> <spring:message code="body_date_range" />
+				</label>
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar">&#160;</i>
+					</div>
+					<input type="date" class="form-control" min="2015-01-01" id="cheFechaFrom" name="cheFechaFrom" /> <br />
+					<br /> 
+					<input type="date" class="form-control" min="2015-01-01" id="cheFechaTo" name="cheFechaTo" disabled="disabled" />
+				</div>
+				<!-- /.input group -->
+			</div>
+			<!-- /.form group -->
+			<div class="box-footer" style="float: right; margin: 0; padding: 0;">
+				<button id="btnResetChecksForm" class="btn btn-info" type="reset">
+					<spring:message code="button_reset" />
+				</button>
+				&#160;&#160;&#160;&#160;
+				<button id="btnSendChecksForm" class="btn btn-info" type="submit">
+					<spring:message code="body_search" />
+				</button>
+			</div>
+			<br /> <br />
 		</div>
-		<!--/.col (left) -->
-	</section>
+	</form:form>
+
 	<!-- /.content -->
 </aside>
 <!-- /.right-side -->

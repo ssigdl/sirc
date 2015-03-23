@@ -17,7 +17,11 @@ public class ChequeVO implements Serializable{
     @NotNull
     private String cheReceptor;
     @NotNull
-    private String cheFechas;
+    private String cheFechaFrom;
+    @NotNull
+    private String cheFechaTo;
+    @NotNull
+    private Integer pageIndex;
     
     public String getCheNumero() {
         return cheNumero;
@@ -31,10 +35,23 @@ public class ChequeVO implements Serializable{
     public void setCheReceptor(String cheReceptor) {
         this.cheReceptor = cheReceptor;
     }
-    public String getCheFechas() {
-        return cheFechas;
-    }
-    public void setCheFechas(String cheFechas) {
-        this.cheFechas = cheFechas;
-    }
+	public String getCheFechaFrom() {
+		return cheFechaFrom;
+	}
+	public void setCheFechaFrom(String cheFechaFrom) {
+		this.cheFechaFrom = cheFechaFrom;
+	}
+	public String getCheFechaTo() {
+		return cheFechaTo;
+	}
+	public void setCheFechaTo(String cheFechaTo) {
+		this.cheFechaTo = cheFechaTo;
+	}
+	public Integer getPageIndex() {
+		return pageIndex;
+	}
+	public void setPageIndex(Integer pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
 }

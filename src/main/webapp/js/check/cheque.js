@@ -1,27 +1,30 @@
 $(function() {
-	// Date range picker
-	$('#cheFechas').daterangepicker();
-	$('#cheFechas').keypress(function(evt) {
-		return false;
-	});
 
+	$("#accordionLeft").accordion({
+		collapsible: true,
+		heightStyle: "content",
+		active: 0
+	});
+	
+    $("#accordionRight").accordion({
+        collapsible: true,
+        heightStyle: "content",
+        active: false
+    });
+	
 	$(".alert-dismissable").hide();
 
 	$("#searchResultTbl > tbody > tr > td:not(:has(button))").click(function() {
 		console.log($($(this).closest("tr")).attr("id"));
-	});
+	}); 
 
 	$("#searchResultTbl .deleteCheck").click(function(){
 		var chequeId = $($(this).closest("tr")).attr("id");
 		console.log(chequeId);
 	});
 	
-	$("#btnSwitchMode").click(function(){
-		toggleAddSearchViews();
-	});
-	
 	$(".close").click(function(event){
-		/* Para evitar que haga los eventos preprogramados apra el mensaje de error */
+		/* Para evitar que haga los eventos preprogramados para el mensaje de error */
 		event.stopPropagation();
 		$(this).parent().hide();
 	});
@@ -37,14 +40,15 @@ $(document)
 .on('submit','#formSearchChecks',function(e) {
 	e.preventDefault();
 	var formData = $("#formSearchChecks :input").serializeArray();
-	if ($.trim($("#formSearchChecks #cheNumero").val()) !== '' 
-		|| $.trim($("#formSearchChecks #cheReceptor").val()) !== ''
-		|| $.trim($("#formSearchChecks #cheFechas").val()) !== '') {
-		
-		$("#searchBox").addClass("box-primary");
-		$("#search_error_alert").hide();
-		$("#searchResultTbl > tbody > tr#trNoResult").hide();
-		$("#searchResultTbl > tbody > tr:not(:last)").remove();
+	
+	var cheNumero = $.trim($("#formSearchChecks #cheNumero").val()); 
+	var cheReceptor = $.trim($("#formSearchChecks #cheReceptor").val()); 
+	var cheFechaFrom = $.trim($("#formSearchChecks #cheFechaFrom").val()); 
+	var cheFechaTo = $.trim($("#formSearchChecks #cheFechaTo").val()); 
+	var pageIndex = $.trim($("#formSearchChecks #pageIndex").val()); 
+	
+	if (cheNumero !== '' || cheReceptor !== ''
+	 || cheFechaFrom !== '' || cheFechaTo !== '') {
 		
 		$.ajax({
 			type: "POST",
@@ -57,11 +61,15 @@ $(document)
 				console.log('Error ' /*+ request.responseText*/ + "\n" + status + "\n" + error);
 			},
 			success: function(JSONrespuesta) {
-				$("#searchChecksBox").show();
+				console.log(JSONrespuesta);
+				$("#searchBox").addClass("box-primary");
+				$("#search_error_alert").hide();
+				$("#searchResultTbl > tbody > tr#trNoResult").hide();
+				$("#searchResultTbl > tbody > tr:not(:last)").remove();
 				
-				if(JSONrespuesta.length > 0 ){
+				if(JSONrespuesta.resultCollection.length > 0 ){
 					var trNew = '';
-					$.each(JSONrespuesta, function(i, item) {
+					$.each(JSONrespuesta.resultCollection, function(i, item) {
 						var lblDelete = jQuery.i18n.prop('entity_delete', jQuery.i18n.prop('menu_item_check'));
 						var lblUpdate = jQuery.i18n.prop('entity_update', jQuery.i18n.prop('menu_item_check'));
 						trNew += '<tr id="' + item.cheId + '">' + 
@@ -87,6 +95,18 @@ $(document)
 								'</tr>';
 					});
 					$("#searchResultTbl > tbody > tr#trNoResult").before(trNew);
+
+					if(pageIndex == 1 && $("#formSearchChecks #eventFirer").val() === "sendFirstTime"){
+						$("#showCheckSearchResultPaginationId .pages").remove(); 
+						var totalPages = JSONrespuesta.totalPages; 
+						for (var index = 1; index <= totalPages; index++) {
+							$("#showCheckSearchResultPaginationId .nextResult").before("<li class='pages'><a >" + index + "</a></li>")
+						}
+						$("#showCheckSearchResultPaginationId").show();
+						sendPaginationRequestEvent();
+						$("#searchBox").prev().click();
+						$("#showCheckSearchResultBox").prev().click();
+					}
 				}
 				else{
 					$("#searchResultTbl > tbody > tr#trNoResult").show();
@@ -246,42 +266,32 @@ $(document)
 	return false;
 })
 .ready(function(){
+	$("#cheFechaFrom").change(function(){
+		$("#cheFechaTo").attr("min", $("#cheFechaFrom").val());
+		$("#cheFechaTo").val($("#cheFechaFrom").val());
+		$("#cheFechaTo").removeAttr("disabled");
+	});
 	
-	$('#cheFecha').datepicker({
-	    format: "dd/mm/yyyy",
-	    todayBtn: "linked",
-	    autoclose: true,
-	    todayHighlight: true
-    });
-	
-	$("#dialog").dialog();
-})
-;
+	$("#formSearchChecks #btnSendChecksForm").click(function(){
+		$("#formSearchChecks #eventFirer").val("sendFirstTime");
+		$("#formSearchChecks #pageIndex").val("1");
+	});	
+//	sendPaginationRequestEvent();
+//	$("#showCheckSearchResultPaginationId").show();
+});
 
-var toggleAddSearchViews = function(){
-	if($("#formSearchChecks").length){	
-		window.location.href= 'check/createCheck';
-//		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
-	}
-	else if($("#formAddCheck").length || $("#formEditCheck").length){
-		window.location.href= 'check/readCheck';
-//		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
-	}
+var sendPaginationRequestEvent = function(){
+	$("#showCheckSearchResultPaginationId .pages a").click(function(){
+		console.log($(this).text());
+		$("#formSearchChecks #eventFirer").val("sendPaginationRequest");
+		$("#formSearchChecks #pageIndex").val($(this).text());
+		$("#formSearchChecks").submit();
+		return false; 
+	});
 };
 
 var setAddedValuesToEdit = function(cheData){
 	console.log(cheData);
-
-	//Me quede en que voy a hacer usando el dialog de jQueryUI uso del Modal Form para hacer una funcion unica reusable en los 2 lugares de buscar y agregar
-	//A pArte voy a separar este script
-	
-	//	$("#dialog_trigger").click( function() {
-
-	
-	//	    $("#dialog").load('check/updateCheck', {'editCheId': cheData.cheId}, function() {
-//
-//	    });
-//	})
 };
 
 function loadBundles(lang) {
@@ -293,3 +303,48 @@ function loadBundles(lang) {
 	    callback: function(){   }
 	});
 }
+
+
+//var toggleAddSearchViews = function(){
+//	if($("#formSearchChecks").length){	
+//		window.location.href= 'check/createCheck';
+////		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_add')));
+//	}
+//	else if($("#formAddCheck").length || $("#formEditCheck").length){
+//		window.location.href= 'check/readCheck';
+////		$("#btnSwitchMode .txt").text(jQuery.i18n.prop('body_switch_view', jQuery.i18n.prop('body_search')));
+//	}
+//};
+
+//activate: function(event, ui) {
+//var oldHeaderId = $(ui.oldHeader).next().attr("id") ;
+//var newHeaderId = $(ui.newHeader).next().attr("id") ;
+//if(oldHeaderId !== undefined){
+//	if(oldHeaderId === "searchBox" && $("#showCheckSearchResultBox").is(":visible")){
+//		$("#showCheckSearchResultBox").prev().click();
+//	}
+//	else if(oldHeaderId === "showCheckSearchResultBox" && $("#searchBox").is(":visible")){
+//		$("#searchBox").prev().click();
+//	}
+//	
+//	if((oldHeaderId === "addBox" || oldHeaderId === "editBox") && $("#editAddCheckBox").is(":visible")){
+//		$("#editAddCheckBox").prev().click();
+//	}
+//	else if(oldHeaderId === "editAddCheckBox"){
+//		if($("#addBox").is(":visible")){
+//			$("#addBox").prev().click();
+//		}
+//		else if($("#editBox").is(":visible")){
+//			$("#editBox").prev().click();
+//		}
+//	}
+//}
+//else if(newHeaderId !== undefined){
+//	if(newHeaderId === "searchBox" && $("#showCheckSearchResultBox").is(":visible") == false){
+//		$("#showCheckSearchResultBox").prev().click();
+//	}
+//	else if(newHeaderId === "showCheckSearchResultBox" && $("#searchBox").is(":visible") == false){
+//		$("#searchBox").prev().click();
+//	}
+//}
+//}

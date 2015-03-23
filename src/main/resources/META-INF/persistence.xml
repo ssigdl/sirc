@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="persistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.target-database"
 				value="org.eclipse.persistence.platform.database.MySQLPlatform" />
@@ -16,8 +16,8 @@
 			<property name="eclipselink.ddl-generation.output-mode"
 				value="database" />
 			<property name="eclipselink.weaving" value="static" />
-			<!-- <property name="eclipselink.logging.level" value="FINE"/> -->
-			<!-- <property name="eclipselink.logging.parameters" value="true"/> -->
+<!-- 			<property name="eclipselink.logging.level" value="FINE"/> -->
+<!-- 			<property name="eclipselink.logging.parameters" value="true"/> -->
 		</properties>
 	</persistence-unit>
 </persistence>

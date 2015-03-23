@@ -1,118 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<aside class="right-side" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+<aside xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
-	<!-- Content Header (Page header) -->
-	
-	<spring:message code="menu_item_checks" var="menu_item_checks" />
+
 	<spring:message code="menu_item_check" var="menu_item_check" />
-	<c:set value="${ssiCheque.cheId}" var="editCheId" />
-	<fmt:formatDate value="${ssiCheque.cheFecha}" var="formattedCheFecha" pattern="dd/MM/yyyy"  />
-	
-	<section class="content-header">
-		<h1>
-			<spring:message arguments="${menu_item_checks}" code="menu_management" />
-			<small> <spring:message code="control_panel" />
-			</small>
-		</h1>
-		<ol class="breadcrumb">
-			<li><i class="fa fa-dashboard"> <a href="${index_url}"> <spring:message code="button_home" />
-				</a>
-			</i></li>
 
-			<li class="active"><spring:message arguments="${menu_item_checks}" code="menu_management" /></li>
-		</ol>
-	</section>
-
-	<!-- Main content -->
-	<section class="content">
-		<div class="row">
-			<!-- left column -->
-			<div class="col-md-6">
-				<!-- general form elements -->
-				<div id="editBox" class="box box-primary">
-					<input type="hidden" name="formErrorCount" id="formErrorCount"
-						value="'${requestScope['org.springframework.validation.BindingResult.ssiCheque'].getErrorCount()}'" />
-
-					<div class="box-header">
-						<h3 class="box-title" id="box-title-edit">
-							<i class="fa fa-edit">&#160;</i>
-							<spring:message arguments="${menu_item_check}" code="body_edit" />
-						</h3>
-					</div>
-					<br />
-					<div style="float: right;">
-						<button type="button" class="btn btn-primary" id="btnSwitchMode">
-							<i class="fa fa-exchange">&#160;</i>
-							<spring:message code="body_search" var="body_search" />
-							<spring:message code="body_switch_view" arguments="${body_search}" />
-						</button>
-						&#160;&#160;&#160;
-					</div>
-					<br /> <br />
-					<form:form id="formEditCheck" role="form" modelAttribute="ssiCheque" method="post" >
-						<form:input path="cheId" type="hidden" />
-						<div class="box-body">
-							<div id="edit_success_alert" class="alert alert-success alert-dismissable">
-								<i class="fa fa-check">&#160;</i>
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
-								<b> <spring:message arguments="${menu_item_check}" code="form_update_success" /> </b> 
-							</div>
-							<div id="edit_error_alert" class="alert alert-danger alert-dismissable">
-								<i class="fa fa-ban">&#160;</i>
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
-								<span class="txt" style="font-weight: bold;">&#160;</span>
-							</div>
-							<div class="form-group">
-								<label for="cheNumero" id="lbl_cheNumero"> <spring:message arguments="${menu_item_check}" code="body_number_of" />&#160; <span
-									class="text-red">*</span>
-								</label>
-								<form:input path="cheNumero" class="form-control" type="number" min="1000000" max="9999999" placeholder="1000000" />
-							</div>
-							<div class="form-group">
-								<label for="cheReceptor" id="lbl_cheReceptor"> <spring:message code="check_receiver" />&#160; <span class="text-red">*</span>
-								</label>
-								<form:input path="cheReceptor" class="form-control" />
-							</div>
-							<div class="form-group">
-								<label for="cheMonto" id="lbl_cheMonto"> <spring:message code="check_amount" />&#160; <span class="text-red">*</span>
-								</label>
-								<form:input path="cheMonto" class="form-control" size="" />
-							</div>
-							<div class="form-group">
-								<label for="cheFecha" id="lbl_cheFecha"> <spring:message code="check_date" />&#160; <span class="text-red">*</span>
-								</label>
-								<div class="input-group" id="groupCheFecha">
-									<div class="input-group-addon">
-										<i class="fa fa-calendar">&#160;</i>
-									</div>
-									<form:input path="cheFecha" class="form-control" value="${formattedCheFecha}" />
-								</div>
-								<!-- /.input group -->
-							</div>
-							<div class="form-group">
-								<label for="cheConcepto" id="lbl_cheConcepto"> <spring:message code="check_concept" />
-								</label>
-								<form:input path="cheConcepto" class="form-control" />
-							</div>
-							<!-- /.form group -->
-							<div class="box-footer" style="float: right; margin: 0; padding: 0;">
-								<button id="btnEditCheckForm" class="btn btn-info" type="submit">
-									<spring:message code="body_update" />
-								</button>
-							</div>
-							<br /> <br />
-						</div>
-					</form:form>
-					<!-- /.box-body -->
-				</div>
-				<!-- /.box -->
+	<form:form id="formEditCheck" role="form" modelAttribute="ssiCheque" method="post">
+		<form:input path="cheId" type="hidden" />
+		<div class="box-body">
+			<div id="edit_success_alert" class="alert alert-success alert-dismissable">
+				<i class="fa fa-check">&#160;</i>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+				<b> <spring:message arguments="${menu_item_check}" code="form_update_success" />
+				</b>
 			</div>
-			<!-- /.row -->
+			<div id="edit_error_alert" class="alert alert-danger alert-dismissable">
+				<i class="fa fa-ban">&#160;</i>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+				<span class="txt" style="font-weight: bold;">&#160;</span>
+			</div>
+			<div class="form-group">
+				<label for="cheNumero" id="lbl_cheNumero"> <spring:message arguments="${menu_item_check}" code="body_number_of" />&#160; <span
+					class="text-red">*</span>
+				</label>
+				<form:input path="cheNumero" class="form-control" type="number" min="1000000" max="9999999" placeholder="1000000" />
+			</div>
+			<div class="form-group">
+				<label for="cheReceptor" id="lbl_cheReceptor"> <spring:message code="check_receiver" />&#160; <span class="text-red">*</span>
+				</label>
+				<form:input path="cheReceptor" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="cheMonto" id="lbl_cheMonto"> <spring:message code="check_amount" />&#160; <span class="text-red">*</span>
+				</label>
+				<form:input path="cheMonto" class="form-control" size="" />
+			</div>
+			<div class="form-group">
+				<label for="cheFecha" id="lbl_cheFecha"> <spring:message code="check_date" />&#160; <span class="text-red">*</span>
+				</label>
+				<div class="input-group" id="groupCheFecha">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar">&#160;</i>
+					</div>
+					<form:input path="cheFecha" class="form-control" value="${formattedCheFecha}" />
+				</div>
+				<!-- /.input group -->
+			</div>
+			<div class="form-group">
+				<label for="cheConcepto" id="lbl_cheConcepto"> <spring:message code="check_concept" />
+				</label>
+				<form:input path="cheConcepto" class="form-control" />
+			</div>
+			<!-- /.form group -->
+			<div class="box-footer" style="float: right; margin: 0; padding: 0;">
+				<button id="btnEditCheckForm" class="btn btn-info" type="submit">
+					<spring:message code="body_update" />
+				</button>
+			</div>
+			<br /> <br />
 		</div>
-		<!--/.col (left) -->
-	</section>
-	<!-- /.content -->
+	</form:form>
 </aside>
-<!-- /.right-side -->

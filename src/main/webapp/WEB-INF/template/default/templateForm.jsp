@@ -23,7 +23,7 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value="${css}"/>">
 	</c:forEach>
 </head>
-<body class="skin-black fixed">
+<body class="skin-blue fixed">
 	<c:forEach var="script" items="${jsList}">
 		<script src="<c:url value="${script}"/>"></script>
 	</c:forEach>

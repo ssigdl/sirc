@@ -5,7 +5,7 @@
 	<spring:url value="/" var="index_url" />
 	<a href="${index_url}" class="logo">
 		<!-- Add the class icon to your logo image or logo icon to add the margining -->
-		TBS
+		SIRC
 	</a>
 	<!-- Header Navbar: style can be found in header.less -->
 	<nav class="navbar navbar-static-top" role="navigation">
@@ -275,16 +275,16 @@
 								<table>
 									<tr>
 										<td style="height: 40px;">
-											<form method="post">
+											<form method="post" action="${requestScope['javax.servlet.forward.request_uri']}">
 												<input type="hidden" name="lang" value="en" />
-												<a href="#" onclick="parentNode.submit();">EN</a>
+												<a onclick="parentNode.submit();" style="color:#3c8dbc; cursor: pointer; font-weight:bold;">EN</a>
 											</form>
 										</td>
 										<td>&nbsp;|&nbsp;</td>
 										<td style="height: 50px;">
-											<form method="post">
+											<form method="post" action="${requestScope['javax.servlet.forward.request_uri']}">
 												<input type="hidden" name="lang" value="es" />
-												<a href="#" onclick="parentNode.submit();">ES</a>
+												<a onclick="parentNode.submit();" style="color:#3c8dbc; cursor: pointer; font-weight:bold;">ES</a>
 											</form>
 										</td>
 									</tr>
