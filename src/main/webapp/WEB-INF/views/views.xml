@@ -5,11 +5,13 @@
 
 <tiles-definitions>
 
+  <definition name="login" extends="loginTemplate" />
+
   <definition name="index" extends="main">
     <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
   </definition>
 
-  <definition name="dataAccessFailure" extends="main">
+  <definition name="dataAccessFailure" extends="error">
     <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
   </definition>
 

@@ -21,5 +21,11 @@
         <put-attribute name="menu" value="/WEB-INF/template/default/menu.jspx" />
         <put-attribute name="footer" value="/WEB-INF/template/default/footer.jsp" />
     </definition>
+
+    <definition name="loginTemplate" template="/WEB-INF/views/login.jspx">
+    </definition>
+
+	<definition name="error" template="/WEB-INF/template/default/templateError.jsp">
+    </definition>
   
 </tiles-definitions>
