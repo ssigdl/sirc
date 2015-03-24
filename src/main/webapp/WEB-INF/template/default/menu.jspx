@@ -36,14 +36,6 @@
 			<!-- /.search form -->
 			<!-- sidebar menu: : style can be found in sidebar.less -->
 			<ul class="sidebar-menu">
-				<li>
-					<a href="${pageContext.request.contextPath}">
-						<i class="fa fa-home">&#160;</i>
-						<span>
-							<spring:message code="button_home" />
-						</span>
-					</a>
-				</li>
 <!-- 				<menu:item id="i_controller__chequeindex_id" messageCode="global_generic" url="" z="IcHZsiC7G/yOtjVjnmv7C8ZCcQU=" /> -->
 <!-- 				<menu:item id="i_controller__facturaindex_id" messageCode="global_generic" url="/factura/index" z="LBj11zvMNqjFyDS4oWQ9pfdotUQ=" /> -->
 <!-- 				<menu:item id="i_controller__empresaindex_id" messageCode="global_generic" url="/empresa/index" z="IRYW/QJsKXqMmbyYKMwgllaC2ZM=" /> -->
@@ -65,33 +57,33 @@
 						<spring:message code="menu_item_icons" />
 					</a>
 				</li>
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-bar-chart-o">&#160;</i>
-						<span>Charts</span>
-						<i class="fa fa-angle-left pull-right">&#160;</i>
-					</a>
-					<ul class="treeview-menu">
-						<li>
-							<a href="../charts/morris.html">
-								<i class="fa fa-angle-double-right">&#160;</i>
-								Morris
-							</a>
-						</li>
-						<li>
-							<a href="../charts/flot.html">
-								<i class="fa fa-angle-double-right">&#160;</i>
-								Flot
-							</a>
-						</li>
-						<li>
-							<a href="../charts/inline.html">
-								<i class="fa fa-angle-double-right">&#160;</i>
-								Inline charts
-							</a>
-						</li>
-					</ul>
-				</li>
+<!-- 				<li class="treeview"> -->
+<!-- 					<a href="#"> -->
+<!-- 						<i class="fa fa-bar-chart-o">&#160;</i> -->
+<!-- 						<span>Charts</span> -->
+<!-- 						<i class="fa fa-angle-left pull-right">&#160;</i> -->
+<!-- 					</a> -->
+<!-- 					<ul class="treeview-menu"> -->
+<!-- 						<li> -->
+<!-- 							<a href="../charts/morris.html"> -->
+<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+<!-- 								Morris -->
+<!-- 							</a> -->
+<!-- 						</li> -->
+<!-- 						<li> -->
+<!-- 							<a href="../charts/flot.html"> -->
+<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+<!-- 								Flot -->
+<!-- 							</a> -->
+<!-- 						</li> -->
+<!-- 						<li> -->
+<!-- 							<a href="../charts/inline.html"> -->
+<!-- 								<i class="fa fa-angle-double-right">&#160;</i> -->
+<!-- 								Inline charts -->
+<!-- 							</a> -->
+<!-- 						</li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
 				<!-- 				<li> -->
 				<!-- 					<a href="../widgets.html"> -->
 				<!-- 						<i class="fa fa-th">&#160;</i> -->

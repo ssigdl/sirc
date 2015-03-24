@@ -4,7 +4,26 @@
 	xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 
 	<spring:message code="menu_item_check" var="menu_item_check" />
+	<spring:message code="dialog_warn_title" var="dialog_warn_title" />
+	<br/>
+	<div id="delete_success_alert" class="alert alert-success alert-dismissable">
+		<i class="fa fa-check">&#160;</i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+		<b> <spring:message arguments="${menu_item_check}" code="form_delete_success" />
+		</b>
+	</div>
 
+	<div id="delete_error_alert" class="alert alert-danger alert-dismissable">
+		<i class="fa fa-ban">&#160;</i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+		<b> <spring:message arguments="${menu_item_check}" code="form_delete_fail" />
+		</b>
+	</div>
+	
+	<div id="dialogDeleteConfirmMessage" title="${dialog_warn_title}">
+  		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">&#160;</span><spring:message code="entity_delete_confirm" /></p>
+	</div>
+	
 	<div class="box-body table-responsive no-padding" style="overflow-x: auto;">
 		<table id="searchResultTbl" class="table table-bordered table-striped">
 			<thead>
@@ -33,4 +52,6 @@
 			<li class="nextResult"><a>&#187;</a></li>
 		</ul>
 	</div>
+	
+	
 </aside>

@@ -10,16 +10,8 @@
 			<spring:message code="menu_item_check" var="menu_item_check" />
 			<spring:message arguments="${menu_item_checks}" code="menu_management" />
 
-			<small> <spring:message code="control_panel" />
-			</small>
+			<small> <spring:message code="control_panel" /> </small>
 		</h1>
-		<ol class="breadcrumb">
-			<li><i class="fa fa-dashboard"> <a href="${index_url}"> <spring:message code="button_home" />
-				</a>
-			</i></li>
-
-			<li class="active"><spring:message arguments="${menu_item_checks}" code="menu_management" /></li>
-		</ol>
 	</section>
 
 	<!-- Main content -->

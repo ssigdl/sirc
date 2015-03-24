@@ -33,9 +33,9 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar">&#160;</i>
 					</div>
-					<input type="date" class="form-control" min="2015-01-01" id="cheFechaFrom" name="cheFechaFrom" /> <br />
-					<br /> 
-					<input type="date" class="form-control" min="2015-01-01" id="cheFechaTo" name="cheFechaTo" disabled="disabled" />
+					<input type="date" class="form-control" min="2015-01-01" id="cheFechaFrom" name="cheFechaFrom" /> 
+					<br /> <br /> 
+					<input type="date" class="form-control" id="cheFechaTo" name="cheFechaTo" disabled="disabled" />
 				</div>
 				<!-- /.input group -->
 			</div>

@@ -43,7 +43,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar">&#160;</i>
 					</div>
-					<form:input path="cheFecha" class="form-control" value="${formattedCheFecha}" />
+					<input type="date" class="form-control" min="2015-01-01" id="cheFecha" name="cheFecha" />
 				</div>
 				<!-- /.input group -->
 			</div>

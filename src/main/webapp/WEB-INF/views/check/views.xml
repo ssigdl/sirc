@@ -5,8 +5,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/check/manageCheck.jspx" />
 		<put-list-attribute name="jsList" cascade="true">
             <add-attribute value="/resources/js/jquery.min.js" />
-   		    <add-attribute value="/resources/js/jquery-ui.min.js" />
             <add-attribute value="/resources/js/bootstrap.min.js" />
+   		    <add-attribute value="/resources/js/jquery-ui.min.js" />
             <add-attribute value="/resources/js/plugins/input-mask/jquery.inputmask.js" />
             <add-attribute value="/resources/js/plugins/input-mask/jquery.inputmask.date.extensions.js" />
             <add-attribute value="/resources/js/plugins/input-mask/jquery.inputmask.extensions.js" />
@@ -14,6 +14,7 @@
             <add-attribute value="/resources/js/AdminLTE/app.js" />
             <add-attribute value="/resources/js/AdminLTE/demo.js" />
             <add-attribute value="/resources/js/jquery.i18n.properties-min-1.0.9.js" />
+            <add-attribute value="/resources/js/application/application.js" />
             <add-attribute value="/resources/js/check/cheque.js" />
         </put-list-attribute>   
 		<put-list-attribute name="cssList" cascade="true" >

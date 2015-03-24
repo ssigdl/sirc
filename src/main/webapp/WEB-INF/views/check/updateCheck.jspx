@@ -5,6 +5,8 @@
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 
 	<spring:message code="menu_item_check" var="menu_item_check" />
+	<spring:message code="dialog_info_title" var="dialog_info_title" />
+	<spring:message code="dialog_select_item" arguments="${menu_item_check}" var="dialog_select_item" />
 
 	<form:form id="formEditCheck" role="form" modelAttribute="ssiCheque" method="post">
 		<form:input path="cheId" type="hidden" />
@@ -43,7 +45,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar">&#160;</i>
 					</div>
-					<form:input path="cheFecha" class="form-control" value="${formattedCheFecha}" />
+					<input type="date" class="form-control" min="2015-01-01" id="cheFecha" name="cheFecha" />
 				</div>
 				<!-- /.input group -->
 			</div>
@@ -61,4 +63,7 @@
 			<br /> <br />
 		</div>
 	</form:form>
+	<div id="dialogSelectItemToEdit" title="${dialog_info_title}">
+	  <p>${dialog_select_item}</p>
+	</div>	
 </aside>

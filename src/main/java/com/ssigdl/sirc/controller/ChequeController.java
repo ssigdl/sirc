@@ -49,9 +49,9 @@ public class ChequeController {
 	}
 
 	//Se enviara a la pagina de create con un ID 
-	@RequestMapping(value = { "/updateCheck"})
-	public @ResponseBody SsiCheque updateCheck(@RequestParam("editCheId") int id) {
-		return SsiCheque.findSsiCheque(id);
+	@RequestMapping(value = { "/updateCheck"}, method = RequestMethod.POST)
+	public @ResponseBody SsiCheque updateCheck(@RequestBody SsiCheque ssiCHeque) {
+		return SsiCheque.findSsiCheque(ssiCHeque.getCheId());
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -110,6 +110,20 @@ public class ChequeController {
 				json.put("success", false);
 				json.put("message", result.getFieldError().getField().substring(3, result.getFieldError().getField().length()) + " " + result.getFieldError().getDefaultMessage());
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			json.put("message", e.getMessage());
+			e.printStackTrace();
+		}
+		return json.toString();
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String delete(@RequestBody SsiCheque ssiCheque) throws JSONException {
+		JSONObject json = new JSONObject();
+		try {
+			ssiCheque.remove();
+			json.put("success", true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			json.put("message", e.getMessage());
