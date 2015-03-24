@@ -33,17 +33,26 @@
 		</init-param>
 	</filter>
 
-
+    <!-- Spring Security Filter -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+ 
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 	<filter>
 		<filter-name>HttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
-
 	<filter>
 		<filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -58,11 +67,20 @@
 		<filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	<!-- Creates the Spring Container shared by all Servlets and Filters -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	
+	<!-- Spring Security Configuration File -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/spring/spring-security.xml</param-value>
+    </context-param>
+ 
+    <!-- Creates the Spring Container shared by all Servlet and Filters -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
 
 	<!-- Handles Spring requests -->
 	<servlet>
@@ -93,4 +111,5 @@
 		<error-code>404</error-code>
 		<location>/resourceNotFound</location>
 	</error-page>
+
 </web-app>

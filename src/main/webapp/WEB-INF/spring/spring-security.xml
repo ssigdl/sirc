@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans 
+	xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="
+    	http://www.springframework.org/schema/security 
+    	http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+ 	<beans:import resource="classpath*:/META-INF/spring/applicationContext.xml" />
+ 
+    <!-- Configuring RoleVoter bean to use custom access roles, by default roles 
+        should be in the form ROLE_{XXX} -->
+    <beans:bean id="roleVoter"
+        class="org.springframework.security.access.vote.RoleVoter">
+        <beans:property name="rolePrefix" value=""></beans:property>
+    </beans:bean>
+ 
+    <beans:bean id="accessDecisionManager"
+        class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:constructor-arg name="decisionVoters"
+            ref="roleVoter" />
+    </beans:bean>
+ 
+    <http authentication-manager-ref="in-memory-auth"
+        access-decision-manager-ref="accessDecisionManager"> 
+        <intercept-url pattern="/check/**" access="Admin" />
+        <form-login login-page="/login" authentication-failure-url="/dataAccessFailure"
+            username-parameter="username" password-parameter="password"
+            default-target-url="/index" />
+        <logout invalidate-session="true" logout-success-url="/login"
+            logout-url="/j_spring_security_logout" />
+        <access-denied-handler error-page="/dataAccessFailure"/>
+        <session-management invalid-session-url="/login">
+            <concurrency-control max-sessions="1"
+                expired-url="/login" />
+        </session-management>
+    </http>
+ 
+    <authentication-manager id="in-memory-auth">
+        <authentication-provider>
+            <user-service>
+                <user name="mgaby" password="marfus" authorities="Admin" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+ 
+</beans:beans>
