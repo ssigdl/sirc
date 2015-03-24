@@ -367,7 +367,6 @@ $(document)
 	});
 
 	$(".alert-dismissable").hide();
-	var lang = getURLParameter("lang");
 	console.log(lang);
 	loadBundles(lang);
 });

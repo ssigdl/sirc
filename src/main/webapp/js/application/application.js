@@ -1,3 +1,5 @@
+var lang = $("#inputLang").val();
+
 var getTodayDate = function (){
     var date = new Date();
 
@@ -19,8 +21,4 @@ var loadBundles = function (lang) {
 	    language:lang,
 	    callback: function(){   }
 	});
-};
-
-var getURLParameter = function (name) {
-    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 };

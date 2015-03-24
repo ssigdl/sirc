@@ -24,6 +24,7 @@
 	</c:forEach>
 </head>
 <body class="skin-blue fixed">
+	<input type="hidden" name="inputLang" id="inputLang" value="${param.lang}"/>
 	<c:forEach var="script" items="${jsList}">
 		<script src="<c:url value="${script}"/>"></script>
 	</c:forEach>

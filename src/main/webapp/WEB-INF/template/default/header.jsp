@@ -275,14 +275,14 @@
 								<table>
 									<tr>
 										<td style="height: 40px;">
-											<form method="get" action="${requestScope['javax.servlet.forward.request_uri']}">
+											<form method="post" action="${requestScope['javax.servlet.forward.request_uri']}">
 												<input type="hidden" name="lang" value="en" />
 												<a onclick="parentNode.submit();" style="color:#3c8dbc; cursor: pointer; font-weight:bold;">EN</a>
 											</form>
 										</td>
 										<td>&nbsp;|&nbsp;</td>
 										<td style="height: 50px;">
-											<form method="get" action="${requestScope['javax.servlet.forward.request_uri']}">
+											<form method="post" action="${requestScope['javax.servlet.forward.request_uri']}">
 												<input type="hidden" name="lang" value="es" />
 												<a onclick="parentNode.submit();" style="color:#3c8dbc; cursor: pointer; font-weight:bold;">ES</a>
 											</form>
