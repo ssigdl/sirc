@@ -7,12 +7,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,7 +20,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssigdl.sirc.bl.BusinessLogicSettings;
-import com.ssigdl.sirc.helper.ResultListWrapper;
+import com.ssigdl.sirc.util.ResultListWrapper;
 import com.ssigdl.sirc.vo.ChequeVO;
 
 privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
@@ -110,7 +108,14 @@ privileged aspect SsiCheque_Roo_Jpa_ActiveRecord {
         
         query.select(fromSsiCheque)
         .where(predicates.toArray(new Predicate[]{}));
-        return new ResultListWrapper<SsiCheque>(totalPages, entityManager().createQuery(query).setFirstResult((chequeVO.getPageIndex() - 1) * BusinessLogicSettings.results_limit).setMaxResults(BusinessLogicSettings.results_limit).getResultList());
+        
+        TypedQuery<SsiCheque> typedQuery = entityManager().createQuery(query);
+        
+        if(chequeVO.getPageIndex() != null){
+        	typedQuery.setFirstResult((chequeVO.getPageIndex() - 1) * BusinessLogicSettings.results_limit).setMaxResults(BusinessLogicSettings.results_limit);
+        }
+        
+        return new ResultListWrapper<SsiCheque>(totalPages, entityManager().createQuery(query).getResultList());
     }
     
     @Transactional

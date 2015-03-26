@@ -294,6 +294,12 @@ $(document)
 	return false;
 })
 
+/* Envio del formulario para generar reporte*/
+
+.on('submit','#formGenerateReport',function(e) {
+	$("#formGenerateReport #cheFechaTo").removeAttr("disabled"); 
+})
+
 /*Eventos que se ejecutan al cargar la pagina manageCheck*/
 
 .ready(function(){

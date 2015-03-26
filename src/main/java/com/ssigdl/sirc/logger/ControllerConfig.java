@@ -1,4 +1,4 @@
-package com.ssigdl.sirc.helper;
+package com.ssigdl.sirc.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
