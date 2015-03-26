@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aside xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+	<form:form id="formGenerateReport" action="check/generateCheckReport" role="form" modelAttribute="chequeVO" method="post">
+		<div class="box-body">
+			<div id="generate_report_error_alert" class="alert alert-danger alert-dismissable">
+				<i class="fa fa-ban">&#160;</i>
+				<button id="btnSearchDismisser" type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+				<b> <spring:message code="field_required_one_field" />
+				</b>
+			</div>
+			<div class="form-group">
+				<label for="cheReceptor" id="lbl_cheReceptor"> <spring:message code="check_receiver" />
+				</label>
+				<form:input path="cheReceptor" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="cheFechaFrom" id="lbl_cheFechas"> <spring:message code="body_date_range" />
+				</label>
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar">&#160;</i>
+					</div>
+					<input type="date" class="form-control" min="2015-01-01" id="cheFechaFrom" name="cheFechaFrom" /> 
+					<br /> <br /> 
+					<input type="date" class="form-control" id="cheFechaTo" name="cheFechaTo" disabled="disabled" />
+				</div>
+				<!-- /.input group -->
+			</div>
+			<!-- /.form group -->
+			<div class="box-footer" style="float: right; margin: 0; padding: 0;">
+				<button id="btnResetChecksForm" class="btn btn-info" type="reset">
+					<spring:message code="button_reset" />
+				</button>
+				&#160;&#160;&#160;&#160;
+				<button id="btnGenerateReportForm" class="btn btn-info" type="submit">
+					<spring:message code="body_search" />
+				</button>
+			</div>
+			<br /> <br />
+		</div>
+	</form:form>
+
+	<!-- /.content -->
+</aside>
+<!-- /.right-side -->

@@ -41,25 +41,37 @@ import com.ssigdl.sirc.vo.ChequeVO;
 @Controller
 public class ChequeController {
 
-	@RequestMapping(value = { "/manageCheck"})
+	@RequestMapping(value = { "/manageCheck" })
 	public ModelAndView readCreateCheck(Model model) {
 		model.addAttribute("chequeVO", new ChequeVO());
 		model.addAttribute("ssiCheque", new SsiCheque());
 		return new ModelAndView("check/manageCheck");
 	}
 
-	//Se enviara a la pagina de create con un ID 
-	@RequestMapping(value = { "/updateCheck"}, method = RequestMethod.POST)
+	// Valida el ID y la informacion seleccionada para editar
+	@RequestMapping(value = { "/updateCheck" }, method = RequestMethod.POST)
 	public @ResponseBody SsiCheque updateCheck(@RequestBody SsiCheque ssiCHeque) {
 		return SsiCheque.findSsiCheque(ssiCHeque.getCheId());
 	}
 
+	@RequestMapping(value = "/generateCheckReport", method = RequestMethod.POST)
+	ModelAndView generatePdf() throws Exception {
+		System.out.println("Calling generatePdf()...");
+
+		
+		
+		ModelAndView modelAndView = new ModelAndView("pdfView", "command",
+				new SsiCheque());
+
+		return modelAndView;
+	}
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public @ResponseBody ResultListWrapper<SsiCheque> search(@Valid ChequeVO chequeVO,
-			BindingResult result) {
+	public @ResponseBody ResultListWrapper<SsiCheque> search(
+			@Valid ChequeVO chequeVO, BindingResult result) {
 
 		ResultListWrapper<SsiCheque> resultListWrapper = new ResultListWrapper<SsiCheque>();
-		
+
 		// ssiCheque.setCheReceptor(chequeVO.getCheReceptor());
 		// ssiCheque.setCheNumero(chequeVO.getCheNumero());
 		//
@@ -78,8 +90,8 @@ public class ChequeController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String add(
-			@RequestBody @Valid SsiCheque ssiCheque, BindingResult result) throws JSONException {
+	public @ResponseBody String add(@RequestBody @Valid SsiCheque ssiCheque,
+			BindingResult result) throws JSONException {
 		JSONObject json = new JSONObject();
 		try {
 			if (result.hasErrors() == false) {
@@ -88,7 +100,16 @@ public class ChequeController {
 				json.put("cheId", ssiCheque.getCheId());
 			} else {
 				json.put("success", false);
-				json.put("message", result.getFieldError().getField().substring(3, result.getFieldError().getField().length()) + " " + result.getFieldError().getDefaultMessage());
+				json.put(
+						"message",
+						result.getFieldError()
+								.getField()
+								.substring(
+										3,
+										result.getFieldError().getField()
+												.length())
+								+ " "
+								+ result.getFieldError().getDefaultMessage());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -99,8 +120,8 @@ public class ChequeController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String edit(
-			@RequestBody @Valid SsiCheque ssiCheque, BindingResult result) throws JSONException {
+	public @ResponseBody String edit(@RequestBody @Valid SsiCheque ssiCheque,
+			BindingResult result) throws JSONException {
 		JSONObject json = new JSONObject();
 		try {
 			if (result.hasErrors() == false) {
@@ -108,7 +129,16 @@ public class ChequeController {
 				json.put("success", true);
 			} else {
 				json.put("success", false);
-				json.put("message", result.getFieldError().getField().substring(3, result.getFieldError().getField().length()) + " " + result.getFieldError().getDefaultMessage());
+				json.put(
+						"message",
+						result.getFieldError()
+								.getField()
+								.substring(
+										3,
+										result.getFieldError().getField()
+												.length())
+								+ " "
+								+ result.getFieldError().getDefaultMessage());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -119,7 +149,8 @@ public class ChequeController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String delete(@RequestBody SsiCheque ssiCheque) throws JSONException {
+	public @ResponseBody String delete(@RequestBody SsiCheque ssiCheque)
+			throws JSONException {
 		JSONObject json = new JSONObject();
 		try {
 			ssiCheque.remove();

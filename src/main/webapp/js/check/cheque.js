@@ -1,11 +1,9 @@
 /*Funcion que contiene el evento de eliminacion*/
 var deleteCheck = function(cheId){
 	var formData = {"cheId": cheId};
-	
 	var button_delete = jQuery.i18n.prop('body_delete');
 	var button_cancel = jQuery.i18n.prop('button_cancel');
 	
-	console.log(cheId);
 	$( "#dialogDeleteConfirmMessage" ).dialog({
 		buttons: [{
 			text : button_delete,
@@ -295,6 +293,9 @@ $(document)
 	}
 	return false;
 })
+
+/*Eventos que se ejecutan al cargar la pagina manageCheck*/
+
 .ready(function(){
 	
 	var today = getTodayDate();
@@ -367,7 +368,6 @@ $(document)
 	});
 
 	$(".alert-dismissable").hide();
-	console.log(lang);
 	loadBundles(lang);
 });
 

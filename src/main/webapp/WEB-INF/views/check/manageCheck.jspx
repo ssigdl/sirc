@@ -42,6 +42,13 @@
 					<div id="editBox" class="box box-primary">
 						<jsp:include page="updateCheck.jspx" />&#160;
 					</div>					
+					<h3>
+						<i class="fa fa-edit">&#160;</i>
+						<spring:message code="body_generateReport" />
+					</h3>
+					<div id="generateReportBox" class="box box-primary">
+						<jsp:include page="generateCheckReport.jspx" />&#160;
+					</div>					
 				</div>
 			</div>
 			<!-- /.row -->
